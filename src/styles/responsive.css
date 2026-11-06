@@ -1,0 +1,102 @@
+/* =========================================
+   RESPONSIVE DESIGN FOUNDATION
+   ========================================= */
+
+/* Tablets */
+
+@media (max-width: 1024px) {
+  :root {
+    --section-padding: 90px;
+  }
+
+  .container {
+    width: min(100% - 40px, var(--container-width));
+  }
+}
+
+/* Mobile landscape and small tablets */
+
+@media (max-width: 768px) {
+  :root {
+    --section-padding: 75px;
+  }
+
+  .container {
+    width: min(100% - 32px, var(--container-width));
+  }
+
+  .section-title {
+    font-size: clamp(2rem, 8vw, 3rem);
+  }
+
+  .section-subtitle {
+    font-size: 0.92rem;
+    line-height: 1.7;
+  }
+
+  .glass-card {
+    border-radius: 16px;
+  }
+
+  .fire-glow {
+    width: 220px;
+    height: 220px;
+    filter: blur(100px);
+  }
+
+  .red-glow {
+    width: 200px;
+    height: 200px;
+    filter: blur(100px);
+  }
+}
+
+/* Small mobile screens */
+
+@media (max-width: 480px) {
+  :root {
+    --section-padding: 60px;
+  }
+
+  .container {
+    width: calc(100% - 28px);
+  }
+
+  .section-title {
+    font-size: 2rem;
+  }
+
+  .section-subtitle {
+    font-size: 0.88rem;
+  }
+
+  .btn {
+    padding: 11px 20px;
+    font-size: 0.88rem;
+  }
+
+  ::-webkit-scrollbar {
+    width: 4px;
+  }
+}
+
+/* Landscape mobile */
+
+@media (max-height: 500px) and (orientation: landscape) {
+  :root {
+    --section-padding: 45px;
+  }
+}
+
+/* Touch devices */
+
+@media (hover: none) {
+  .hover-lift:hover {
+    transform: none;
+    box-shadow: none;
+  }
+
+  .hover-glow:hover {
+    box-shadow: none;
+  }
+}
