@@ -2,8 +2,8 @@
 import { motion } from "framer-motion";
 import {
   Mail,
-  Github,
-  Linkedin,
+  GitHub,
+  LinkedIn,
   Instagram,
   MessageCircle,
   ArrowUpRight,
@@ -13,13 +13,13 @@ const socialLinks = [
   {
     name: "GitHub",
     detail: "Explore my code",
-    icon: Github,
+    icon: GitHub,
     url: "https://github.com/",
   },
   {
     name: "LinkedIn",
     detail: "Connect professionally",
-    icon: Linkedin,
+    icon: LinkedIn,
     url: "https://www.linkedin.com/",
   },
   {
