@@ -1,6 +1,5 @@
 import Navbar from "./components/Navbar";
 import Loader from "./components/Loader";
-import PageTransition from "./components/PageTransition";
 import ScrollProgress from "./components/ScrollProgress";
 import FireParticles from "./components/FireParticles";
 import CustomCursor from "./components/CustomCursor";
@@ -23,17 +22,15 @@ export default function App() {
       <ScrollProgress />
       <Navbar />
 
-      <PageTransition>
-        <main>
-          <Hero />
-          <About />
-          <University />
-          <Skills />
-          <Projects />
-          <Achievements />
-          <Contact />
-        </main>
-      </PageTransition>
+      <main>
+  <Hero />
+  <About />
+  <University />
+  <Skills />
+  <Projects />
+  <Achievements />
+  <Contact />
+</main>
 
       <style>{`
         * {
