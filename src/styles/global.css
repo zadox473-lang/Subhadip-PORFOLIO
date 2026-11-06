@@ -1,0 +1,313 @@
+/* =========================================
+   SUBHADIP PORTFOLIO
+   GLOBAL DESIGN SYSTEM
+   ========================================= */
+
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+
+/* ---------- ROOT VARIABLES ---------- */
+
+:root {
+  color-scheme: dark;
+
+  --bg-primary: #080605;
+  --bg-secondary: #100b08;
+  --bg-card: #15100d;
+  --bg-card-hover: #20130e;
+
+  --color-orange: #ff6a00;
+  --color-orange-light: #ff9b42;
+  --color-red: #f02036;
+  --color-red-dark: #8f071a;
+
+  --text-primary: #ffffff;
+  --text-secondary: #c4bcb6;
+  --text-muted: #82766f;
+
+  --border-color: rgba(255, 125, 45, 0.18);
+  --border-glow: rgba(255, 105, 20, 0.45);
+
+  --glow-orange:
+    0 0 15px rgba(255, 95, 0, 0.25),
+    0 0 40px rgba(255, 95, 0, 0.12);
+
+  --glow-red:
+    0 0 20px rgba(240, 20, 54, 0.3),
+    0 0 55px rgba(240, 20, 54, 0.12);
+
+  --font-main: 'DM Sans', sans-serif;
+  --font-display: 'Space Grotesk', sans-serif;
+
+  --container-width: 1440px;
+  --section-padding: 120px;
+
+  --transition-fast: 0.25s ease;
+  --transition-normal: 0.45s ease;
+  --transition-smooth: 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+
+  font-family: var(--font-main);
+}
+
+/* ---------- RESET ---------- */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 90px;
+  background: var(--bg-primary);
+}
+
+body {
+  min-width: 320px;
+  min-height: 100vh;
+  overflow-x: hidden;
+
+  background:
+    radial-gradient(
+      ellipse at 50% 0%,
+      rgba(100, 25, 5, 0.13),
+      transparent 55%
+    ),
+    var(--bg-primary);
+
+  color: var(--text-primary);
+  font-family: var(--font-main);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img,
+video,
+canvas {
+  display: block;
+  max-width: 100%;
+}
+
+img {
+  object-fit: cover;
+}
+
+ul,
+ol {
+  list-style: none;
+}
+
+/* ---------- SELECTION ---------- */
+
+::selection {
+  background: var(--color-orange);
+  color: #ffffff;
+}
+
+/* ---------- SCROLLBAR ---------- */
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #080605;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(
+    180deg,
+    var(--color-red),
+    var(--color-orange)
+  );
+  border-radius: 20px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-orange-light);
+}
+
+/* ---------- GLOBAL CONTAINER ---------- */
+
+.container {
+  width: min(100% - 48px, var(--container-width));
+  margin-inline: auto;
+}
+
+.section {
+  position: relative;
+  width: 100%;
+  padding: var(--section-padding) 0;
+  overflow: hidden;
+}
+
+.section-title {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 5vw, 4rem);
+  font-weight: 700;
+  line-height: 1.08;
+  letter-spacing: -0.04em;
+}
+
+.section-subtitle {
+  margin-top: 16px;
+  color: var(--text-secondary);
+  font-size: 1rem;
+  line-height: 1.8;
+  max-width: 650px;
+}
+
+.text-orange {
+  color: var(--color-orange);
+}
+
+.text-red {
+  color: var(--color-red);
+}
+
+.gradient-text {
+  background: linear-gradient(
+    100deg,
+    #ffffff 0%,
+    #ff9b42 45%,
+    #ff4b1f 100%
+  );
+
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* ---------- BACKGROUND EFFECTS ---------- */
+
+.glow-orange {
+  box-shadow: var(--glow-orange);
+}
+
+.glow-red {
+  box-shadow: var(--glow-red);
+}
+
+.glass-card {
+  background: rgba(22, 15, 11, 0.72);
+  border: 1px solid var(--border-color);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border-radius: 20px;
+}
+
+.fire-glow {
+  position: absolute;
+  width: 350px;
+  height: 350px;
+  border-radius: 50%;
+  background: var(--color-orange);
+  filter: blur(160px);
+  opacity: 0.13;
+  pointer-events: none;
+}
+
+.red-glow {
+  position: absolute;
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  background: var(--color-red);
+  filter: blur(150px);
+  opacity: 0.13;
+  pointer-events: none;
+}
+
+/* ---------- BUTTON BASE ---------- */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+
+  padding: 13px 25px;
+  border: 1px solid transparent;
+  border-radius: 50px;
+
+  font-size: 0.95rem;
+  font-weight: 700;
+
+  transition:
+    transform var(--transition-normal),
+    box-shadow var(--transition-normal),
+    background var(--transition-normal);
+}
+
+.btn-primary {
+  color: white;
+  background: linear-gradient(
+    100deg,
+    #ff4b00,
+    #ff7900
+  );
+
+  box-shadow: 0 0 25px rgba(255, 90, 0, 0.25);
+}
+
+.btn-primary:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 0 35px rgba(255, 90, 0, 0.5);
+}
+
+.btn-outline {
+  color: white;
+  border-color: var(--border-glow);
+  background: rgba(255, 105, 0, 0.04);
+}
+
+.btn-outline:hover {
+  background: rgba(255, 105, 0, 0.15);
+  transform: translateY(-3px);
+}
+
+/* ---------- FOCUS ACCESSIBILITY ---------- */
+
+:focus-visible {
+  outline: 2px solid var(--color-orange);
+  outline-offset: 4px;
+}
+
+/* ---------- HORIZONTAL DIVIDER ---------- */
+
+.fire-divider {
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--color-orange),
+    var(--color-red),
+    var(--color-orange),
+    transparent
+  );
+  box-shadow: 0 0 15px rgba(255, 100, 0, 0.4);
+}
+
+/* ---------- APP ROOT ---------- */
+
+#root {
+  min-height: 100vh;
+  isolation: isolate;
+}
