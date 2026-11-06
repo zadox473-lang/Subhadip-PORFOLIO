@@ -9,10 +9,10 @@ import {
 const achievements = [
   {
     icon: Trophy,
-    title: "Competition & Challenges",
+    title: "Competitions & Challenges",
     category: "ACHIEVEMENT",
     description:
-      "A space to showcase competitions, hackathons and challenges completed.",
+      "A place to showcase competitions, hackathons and challenges.",
     year: "Add year",
   },
   {
@@ -47,7 +47,10 @@ const item = {
   visible: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.65, ease: "easeOut" as const },
+    transition: {
+      duration: 0.65,
+      ease: "easeOut" as const,
+    },
   },
 };
 
@@ -70,7 +73,7 @@ function Achievements() {
           height: 420px;
           right: -180px;
           top: 15%;
-          background: rgba(255, 75, 20, 0.09);
+          background: rgba(255,75,20,0.09);
           filter: blur(110px);
           pointer-events: none;
         }
@@ -219,8 +222,8 @@ function Achievements() {
         </h2>
 
         <p>
-          Every achievement is a reminder to keep learning, building
-          and exploring new possibilities in technology.
+          Every achievement is a reminder to keep learning,
+          building and exploring new possibilities in technology.
         </p>
       </motion.div>
 
