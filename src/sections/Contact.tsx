@@ -1,10 +1,9 @@
-
 import { motion } from "framer-motion";
 import {
   Mail,
-  GitHub,
-  LinkedIn,
-  Instagram,
+  Code2,
+  Network,
+  Camera,
   MessageCircle,
   ArrowUpRight,
 } from "lucide-react";
@@ -13,19 +12,19 @@ const socialLinks = [
   {
     name: "GitHub",
     detail: "Explore my code",
-    icon: GitHub,
+    icon: Code2,
     url: "https://github.com/",
   },
   {
     name: "LinkedIn",
     detail: "Connect professionally",
-    icon: LinkedIn,
+    icon: Network,
     url: "https://www.linkedin.com/",
   },
   {
     name: "Instagram",
     detail: "Follow my journey",
-    icon: Instagram,
+    icon: Camera,
     url: "https://www.instagram.com/",
   },
   {
@@ -55,7 +54,7 @@ function Contact() {
           height: 480px;
           left: -220px;
           top: 10%;
-          background: rgba(255, 75, 20, 0.10);
+          background: rgba(255,75,20,0.10);
           filter: blur(120px);
           pointer-events: none;
         }
