@@ -4,7 +4,6 @@ import {
   Trophy,
   Medal,
   BadgeCheck,
-  ArrowUpRight,
 } from "lucide-react";
 
 const achievements = [
