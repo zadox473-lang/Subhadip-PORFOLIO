@@ -1,4 +1,3 @@
-```tsx
 function App() {
   return (
     <>
@@ -15,7 +14,7 @@ function App() {
 
         body {
           background: #080707;
-          color: #fff;
+          color: #ffffff;
           font-family: Arial, sans-serif;
         }
 
@@ -29,7 +28,7 @@ function App() {
         }
 
         .navbar {
-          height: 85px;
+          min-height: 85px;
           padding: 0 8%;
           display: flex;
           align-items: center;
@@ -53,10 +52,9 @@ function App() {
         }
 
         .nav-links a {
-          color: #aaa;
+          color: #aaaaaa;
           text-decoration: none;
           font-size: 13px;
-          transition: .3s;
         }
 
         .nav-links a:hover {
@@ -88,7 +86,7 @@ function App() {
 
         .hero h1 {
           font-size: clamp(55px, 10vw, 115px);
-          line-height: .95;
+          line-height: 0.95;
           font-weight: 900;
           letter-spacing: -5px;
         }
@@ -99,14 +97,14 @@ function App() {
         }
 
         .hero h2 {
-          color: #ccc;
+          color: #cccccc;
           font-size: clamp(18px, 3vw, 27px);
           font-weight: 400;
           margin-top: 30px;
         }
 
         .description {
-          color: #999;
+          color: #999999;
           max-width: 480px;
           line-height: 1.8;
           margin-top: 18px;
@@ -126,18 +124,18 @@ function App() {
           text-decoration: none;
           font-size: 13px;
           font-weight: bold;
-          transition: .3s;
+          transition: 0.3s;
         }
 
         .primary {
           background: #ff5722;
-          color: white;
+          color: #ffffff;
           box-shadow: 0 0 30px #ff572233;
         }
 
         .secondary {
           border: 1px solid #ffffff44;
-          color: white;
+          color: #ffffff;
         }
 
         .hero-buttons a:hover {
@@ -153,7 +151,7 @@ function App() {
           border-radius: 50%;
           background: #ff4500;
           filter: blur(150px);
-          opacity: .18;
+          opacity: 0.18;
           animation: pulse 4s infinite alternate;
         }
 
@@ -161,7 +159,7 @@ function App() {
           position: absolute;
           bottom: 30px;
           left: 10%;
-          color: #777;
+          color: #777777;
           font-size: 10px;
           letter-spacing: 4px;
         }
@@ -178,14 +176,18 @@ function App() {
         }
 
         @keyframes pulse {
-          from { opacity: .10; }
-          to { opacity: .28; }
+          from {
+            opacity: 0.1;
+          }
+          to {
+            opacity: 0.28;
+          }
         }
 
         @media (max-width: 650px) {
           .navbar {
             padding: 0 6%;
-            height: 70px;
+            min-height: 70px;
           }
 
           .nav-links {
@@ -213,7 +215,9 @@ function App() {
 
       <main className="portfolio">
         <nav className="navbar">
-          <div className="brand">SUBHO<span>.</span></div>
+          <div className="brand">
+            SUBHO<span>.</span>
+          </div>
 
           <div className="nav-links">
             <a href="#home">HOME</a>
@@ -226,7 +230,7 @@ function App() {
           <div className="glow"></div>
 
           <div className="hero-content">
-            <p className="eyebrow">AI & ROBOTICS STUDENT</p>
+            <p className="eyebrow">AI &amp; ROBOTICS STUDENT</p>
 
             <h1>
               BUILDING
@@ -234,7 +238,7 @@ function App() {
               THE <span>FUTURE.</span>
             </h1>
 
-            <h2>I'm Subhadip — Future Engineer.</h2>
+            <h2>I&apos;m Subhadip — Future Engineer.</h2>
 
             <p className="description">
               Exploring Artificial Intelligence, Robotics and
@@ -244,7 +248,7 @@ function App() {
 
             <div className="hero-buttons">
               <a className="primary" href="#about">
-                EXPLORE MY WORLD ↗
+                EXPLORE MY WORLD
               </a>
 
               <a className="secondary" href="#contact">
@@ -253,29 +257,41 @@ function App() {
             </div>
           </div>
 
-          <div className="scroll">SCROLL TO EXPLORE ↓</div>
+          <div className="scroll">SCROLL TO EXPLORE</div>
         </section>
 
-        <section id="about" style={{ padding: "100px 10%", color: "#aaa" }}>
-          <p style={{ color: "#ff5722", letterSpacing: 4 }}>01 / ABOUT</p>
-          <h2 style={{ color: "white", fontSize: 38, marginTop: 20 }}>
+        <section
+          id="about"
+          style={{ padding: "100px 10%", color: "#aaaaaa" }}
+        >
+          <p style={{ color: "#ff5722", letterSpacing: 4 }}>
+            01 / ABOUT
+          </p>
+
+          <h2 style={{ color: "#ffffff", fontSize: 38, marginTop: 20 }}>
             The journey starts here.
           </h2>
+
           <p style={{ marginTop: 15 }}>
             More about Subhadip coming soon.
           </p>
         </section>
 
-        <section id="contact" style={{ padding: "70px 10%", color: "#aaa" }}>
-          <p style={{ color: "#ff5722", letterSpacing: 4 }}>02 / CONTACT</p>
-          <h2 style={{ color: "white", fontSize: 38, marginTop: 20 }}>
-            Let's connect.
+        <section
+          id="contact"
+          style={{ padding: "70px 10%", color: "#aaaaaa" }}
+        >
+          <p style={{ color: "#ff5722", letterSpacing: 4 }}>
+            02 / CONTACT
+          </p>
+
+          <h2 style={{ color: "#ffffff", fontSize: 38, marginTop: 20 }}>
+            Let&apos;s connect.
           </h2>
         </section>
       </main>
     </>
-  )
+  );
 }
 
-export default App
-```
+export default App;
