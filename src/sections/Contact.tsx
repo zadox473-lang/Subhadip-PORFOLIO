@@ -7,7 +7,6 @@ import {
   Instagram,
   MessageCircle,
   ArrowUpRight,
-  Send,
 } from "lucide-react";
 
 const socialLinks = [
