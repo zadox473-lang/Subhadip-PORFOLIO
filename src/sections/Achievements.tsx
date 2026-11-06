@@ -232,7 +232,7 @@ function Achievements() {
         whileInView="visible"
         viewport={{ once: true, amount: 0.15 }}
       >
-        {achievements.map((achievement, index) => {
+        {achievements.map((achievement) => {
           const Icon = achievement.icon;
 
           return (
