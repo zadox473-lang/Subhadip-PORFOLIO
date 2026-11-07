@@ -6,25 +6,25 @@ type LoaderProps = {
 };
 
 export default function Loader({ onComplete }: LoaderProps) {
-  const [progress, setProgress] = useState(0);
   const [visible, setVisible] = useState(true);
+  const [progress, setProgress] = useState(0);
 
   useEffect(() => {
+    let current = 0;
+
     const interval = window.setInterval(() => {
-      setProgress((current) => {
-        const next = Math.min(current + Math.random() * 12 + 4, 100);
+      current = Math.min(current + 5, 100);
+      setProgress(current);
 
-        if (next >= 100) {
-          window.clearInterval(interval);
-          window.setTimeout(() => {
-            setVisible(false);
-            onComplete?.();
-          }, 350);
-        }
+      if (current >= 100) {
+        window.clearInterval(interval);
 
-        return next;
-      });
-    }, 120);
+        window.setTimeout(() => {
+          setVisible(false);
+          onComplete?.();
+        }, 300);
+      }
+    }, 60);
 
     return () => window.clearInterval(interval);
   }, [onComplete]);
@@ -35,37 +35,26 @@ export default function Loader({ onComplete }: LoaderProps) {
         <motion.div
           className="site-loader"
           initial={{ opacity: 1 }}
-          exit={{ opacity: 0, scale: 1.02 }}
-          transition={{ duration: 0.7, ease: "easeInOut" }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.5 }}
         >
           <div className="loader-content">
-            <motion.span
-              className="loader-label"
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-            >
-              AI & ROBOTICS PORTFOLIO
-            </motion.span>
+            <p className="loader-label">AI & ROBOTICS PORTFOLIO</p>
 
-            <motion.h1
-              initial={{ opacity: 0, y: 25 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.15 }}
-            >
+            <h1>
               SUBHADIP<span>.</span>
-            </motion.h1>
+            </h1>
 
             <div className="loader-track">
-              <motion.div
+              <div
                 className="loader-fill"
-                animate={{ width: `${progress}%` }}
-                transition={{ ease: "easeOut", duration: 0.2 }}
+                style={{ width: `${progress}%` }}
               />
             </div>
 
             <div className="loader-meta">
               <span>INITIALIZING EXPERIENCE</span>
-              <span>{Math.round(progress)}%</span>
+              <span>{progress}%</span>
             </div>
           </div>
 
@@ -77,8 +66,8 @@ export default function Loader({ onComplete }: LoaderProps) {
               display: grid;
               place-items: center;
               background: #070707;
-              color: #fff;
-              font-family: inherit;
+              color: white;
+              pointer-events: none;
             }
 
             .loader-content {
@@ -86,7 +75,6 @@ export default function Loader({ onComplete }: LoaderProps) {
             }
 
             .loader-label {
-              display: block;
               margin-bottom: 18px;
               color: #ff7626;
               font-size: 10px;
@@ -95,7 +83,7 @@ export default function Loader({ onComplete }: LoaderProps) {
             }
 
             .loader-content h1 {
-              margin: 0 0 34px;
+              margin-bottom: 34px;
               text-align: center;
               font-size: clamp(38px, 9vw, 68px);
               font-weight: 900;
@@ -109,7 +97,6 @@ export default function Loader({ onComplete }: LoaderProps) {
             .loader-track {
               width: 100%;
               height: 2px;
-              overflow: hidden;
               background: #292929;
             }
 
@@ -117,13 +104,14 @@ export default function Loader({ onComplete }: LoaderProps) {
               height: 100%;
               background: linear-gradient(90deg, #ff3d00, #ff9a35);
               box-shadow: 0 0 12px #ff6426;
+              transition: width 0.06s linear;
             }
 
             .loader-meta {
               display: flex;
               justify-content: space-between;
               margin-top: 12px;
-              color: #777;
+              color: #999;
               font-size: 9px;
               letter-spacing: 1.5px;
             }
