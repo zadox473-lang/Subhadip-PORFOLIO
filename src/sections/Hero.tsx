@@ -74,13 +74,18 @@ const T_REST = START + 3.3; // 4. text, buttons, socials
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
+/* Your PNGs currently have a solid black background (not transparent).
+   While that is true, keep this true: it blends the black away.
+   Once you replace them with truly transparent PNGs, set it to false. */
+const BLEND_BLACK_BG = true;
+
 const hideBroken = (e: SyntheticEvent<HTMLImageElement>) => {
   e.currentTarget.style.visibility = "hidden";
 };
 
 export default function Hero() {
   return (
-    <section className="rb-hero">
+    <section className={`rb-hero${BLEND_BLACK_BG ? " rb-blend" : ""}`}>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Mrs+Saint+Delafield&display=swap');
 
@@ -149,6 +154,15 @@ export default function Hero() {
           inset: 0;
           z-index: 2;
           pointer-events: none;
+          overflow: hidden;
+        }
+
+        .rb-blend .rb-portrait img,
+        .rb-blend .rb-robot img {
+          mix-blend-mode: screen;
+          filter: none;
+          -webkit-mask-image: none;
+          mask-image: none;
         }
 
         .rb-giant {
@@ -437,7 +451,7 @@ export default function Hero() {
           .rb-stage {
             position: relative;
             inset: auto;
-            height: min(56svh, 125vw);
+            height: min(56svh, 105vw);
             min-height: 380px;
             flex-shrink: 0;
             margin-top: 70px;
@@ -449,13 +463,13 @@ export default function Hero() {
           }
 
           .rb-portrait {
-            left: 38%;
-            height: 96%;
+            left: 42%;
+            height: 92%;
           }
 
           .rb-robot {
-            right: -8%;
-            height: 78%;
+            right: -2%;
+            height: 62%;
           }
 
           .rb-content {
@@ -630,4 +644,4 @@ export default function Hero() {
       <div className="rb-line" />
     </section>
   );
-}
+                     }
