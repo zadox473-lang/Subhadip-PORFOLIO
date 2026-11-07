@@ -1,12 +1,11 @@
-import { motion } from 'framer-motion'
 import {
   ArrowUpRight,
   Mail,
-  GitHub,
-  LinkedIn,
-  Instagram,
   MessageCircle,
   Sparkles,
+  Code2,
+  BriefcaseBusiness,
+  Camera,
 } from 'lucide-react'
 
 const contacts = [
