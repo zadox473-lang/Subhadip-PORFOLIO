@@ -2,8 +2,8 @@ import { motion } from 'framer-motion'
 import {
   ArrowUpRight,
   Mail,
-  Github,
-  Linkedin,
+  GitHub,
+  LinkedIn,
   Instagram,
   MessageCircle,
   Sparkles,
