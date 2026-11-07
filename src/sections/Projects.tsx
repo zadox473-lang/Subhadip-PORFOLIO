@@ -1,376 +1,461 @@
-import { motion } from "framer-motion";
+import { motion } from 'framer-motion'
+import {
+  ArrowUpRight,
+  BrainCircuit,
+  Cpu,
+  Layers3,
+  Sparkles,
+} from 'lucide-react'
 
 const projects = [
   {
-    number: "01",
-    category: "ARTIFICIAL INTELLIGENCE",
-    title: "AI PROJECT",
+    number: '01',
+    category: 'ARTIFICIAL INTELLIGENCE',
+    title: 'Intelligent Systems',
     description:
-      "An exploration into intelligent systems and the possibilities of artificial intelligence.",
-    technologies: ["Python", "AI", "Machine Learning"],
-    status: "EXPLORATION",
-    symbol: "🧠",
+      'Exploring how AI models learn, process information and solve real-world problems.',
+    status: 'LEARNING & EXPLORING',
+    icon: BrainCircuit,
+    tags: ['AI', 'Machine Learning', 'Python'],
+    accent: 'ai',
   },
   {
-    number: "02",
-    category: "ROBOTICS & AUTOMATION",
-    title: "ROBOTICS PROJECT",
+    number: '02',
+    category: 'ROBOTICS & AUTOMATION',
+    title: 'Robotics Lab',
     description:
-      "Exploring robotics concepts, automation and the connection between software and hardware.",
-    technologies: ["Robotics", "Electronics", "Automation"],
-    status: "EXPLORATION",
-    symbol: "🤖",
+      'Discovering the connection between electronics, sensors, programming and intelligent machines.',
+    status: 'IDEA & EXPERIMENTATION',
+    icon: Cpu,
+    tags: ['Robotics', 'Sensors', 'Automation'],
+    accent: 'robotics',
   },
   {
-    number: "03",
-    category: "WEB DEVELOPMENT",
-    title: "PORTFOLIO WEBSITE",
+    number: '03',
+    category: 'CREATIVE TECHNOLOGY',
+    title: 'Digital Experiences',
     description:
-      "A personal digital space designed to showcase creativity, technology and engineering journey.",
-    technologies: ["React", "TypeScript", "CSS"],
-    status: "IN DEVELOPMENT",
-    symbol: "🌐",
+      'Experimenting with code and creative tools to build interactive digital experiences.',
+    status: 'CONTINUOUS EXPLORATION',
+    icon: Layers3,
+    tags: ['Development', 'Design', 'Technology'],
+    accent: 'creative',
   },
-];
+]
 
-const projectContainer = {
-  hidden: {},
-  visible: {
-    transition: {
-      staggerChildren: 0.18,
-    },
-  },
-};
-
-const projectItem = {
-  hidden: {
-    opacity: 0,
-    y: 55,
-    scale: 0.96,
-  },
-  visible: {
-    opacity: 1,
-    y: 0,
-    scale: 1,
-    transition: {
-      duration: 0.7,
-      ease: "easeOut" as const,
-    },
-  },
-};
-
-function Projects() {
+export default function Projects() {
   return (
-    <>
+    <section id="projects" className="projects-section">
+      <div className="projects-container">
+        <motion.div
+          className="projects-heading"
+          initial={{ opacity: 0, y: 35 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.7 }}
+        >
+          <span className="projects-eyebrow">
+            <Sparkles size={14} />
+            IDEAS INTO EXPERIMENTS
+          </span>
+
+          <h2>
+            SELECTED <span>WORK.</span>
+          </h2>
+
+          <p>
+            Every project starts with a question. Every experiment brings a
+            new opportunity to learn.
+          </p>
+        </motion.div>
+
+        <div className="projects-grid">
+          {projects.map((project, index) => {
+            const Icon = project.icon
+
+            return (
+              <motion.article
+                className={`project-card project-${project.accent}`}
+                key={project.number}
+                initial={{ opacity: 0, y: 45 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.2 }}
+                transition={{ duration: 0.65, delay: index * 0.12 }}
+              >
+                <div className="project-visual">
+                  <span className="project-index">
+                    PROJECT / {project.number}
+                  </span>
+
+                  <div className="project-art">
+                    <div className="project-art-ring project-ring-one" />
+                    <div className="project-art-ring project-ring-two" />
+
+                    <div className="project-icon">
+                      <Icon size={58} strokeWidth={1.1} />
+                    </div>
+
+                    <span className="project-art-caption">
+                      {project.category}
+                    </span>
+                  </div>
+
+                  <span className="project-visual-mark">
+                    0{index + 1}
+                  </span>
+                </div>
+
+                <div className="project-content">
+                  <span className="project-category">
+                    {project.category}
+                  </span>
+
+                  <h3>{project.title}</h3>
+
+                  <p>{project.description}</p>
+
+                  <div className="project-tags">
+                    {project.tags.map((tag) => (
+                      <span key={tag}>{tag}</span>
+                    ))}
+                  </div>
+
+                  <div className="project-card-footer">
+                    <span>
+                      <i />
+                      {project.status}
+                    </span>
+
+                    <ArrowUpRight size={19} />
+                  </div>
+                </div>
+              </motion.article>
+            )
+          })}
+        </div>
+
+        <motion.div
+          className="projects-bottom"
+          initial={{ opacity: 0, y: 25 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+        >
+          <div>
+            <span className="projects-bottom-label">THE NEXT CHAPTER</span>
+            <h3>
+              MORE IDEAS. <span>MORE BUILDS.</span>
+            </h3>
+          </div>
+
+          <a href="#contact" className="projects-contact-link">
+            LET'S CONNECT
+            <ArrowUpRight size={18} />
+          </a>
+        </motion.div>
+      </div>
+
       <style>{`
         .projects-section {
           position: relative;
           overflow: hidden;
-          padding: 120px 10%;
-          background: #0b0908;
-          color: #fff;
+          padding: 120px 7% 110px;
+          color: #f5f1ed;
+          background:
+            radial-gradient(ellipse at 10% 65%, rgba(255, 65, 0, 0.075), transparent 38%),
+            #0b0a09;
         }
 
-        .projects-section::before {
-          content: "";
-          position: absolute;
-          width: 350px;
-          height: 350px;
-          left: -180px;
-          top: 25%;
-          border-radius: 50%;
-          background: #ff4500;
-          filter: blur(150px);
-          opacity: .13;
-          pointer-events: none;
-        }
-
-        .projects-inner {
-          max-width: 1200px;
-          margin: auto;
-          position: relative;
-          z-index: 1;
-        }
-
-        .projects-label {
-          color: #ff7043;
-          font-size: 12px;
-          font-weight: 700;
-          letter-spacing: 5px;
-          margin-bottom: 22px;
+        .projects-container {
+          max-width: 1250px;
+          margin: 0 auto;
         }
 
         .projects-heading {
-          font-size: clamp(42px, 6vw, 74px);
-          line-height: 1.05;
-          letter-spacing: -3px;
+          max-width: 760px;
+          margin-bottom: 55px;
         }
 
-        .projects-heading span {
-          color: #ff5722;
+        .projects-eyebrow {
+          display: inline-flex;
+          align-items: center;
+          gap: 9px;
+          color: #ff7138;
+          font-size: 10px;
+          font-weight: 700;
+          letter-spacing: 3px;
         }
 
-        .projects-intro {
-          max-width: 600px;
-          color: #999;
-          font-size: 15px;
+        .projects-heading h2 {
+          margin: 18px 0;
+          font-size: clamp(44px, 7vw, 84px);
+          line-height: 0.98;
+          font-weight: 900;
+          letter-spacing: -4px;
+        }
+
+        .projects-heading h2 span {
+          color: #ff6128;
+          text-shadow: 0 0 30px rgba(255, 75, 0, 0.25);
+        }
+
+        .projects-heading p {
+          max-width: 570px;
+          color: #928a85;
+          font-size: 14px;
           line-height: 1.9;
-          margin-top: 22px;
         }
 
         .projects-grid {
           display: grid;
-          grid-template-columns: repeat(2, 1fr);
-          gap: 24px;
-          margin-top: 60px;
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+          gap: 18px;
         }
 
         .project-card {
-          position: relative;
-          min-height: 390px;
-          padding: 32px;
-          border: 1px solid #ffffff18;
-          border-radius: 20px;
           overflow: hidden;
-          background: linear-gradient(
-            145deg,
-            #ffffff0d,
-            #ffffff03
-          );
-          backdrop-filter: blur(15px);
-          transition:
-            border-color .4s ease,
-            box-shadow .4s ease,
-            background .4s ease;
-        }
-
-        .project-card::before {
-          content: "";
-          position: absolute;
-          width: 220px;
-          height: 220px;
-          right: -120px;
-          top: -120px;
-          border-radius: 50%;
-          background: #ff5722;
-          filter: blur(90px);
-          opacity: 0;
-          transition: opacity .5s ease;
-          pointer-events: none;
+          border: 1px solid rgba(255, 255, 255, 0.075);
+          border-radius: 15px;
+          background: linear-gradient(150deg, #191411, #0e0d0c 70%);
+          transition: transform 0.35s ease, border-color 0.35s ease;
         }
 
         .project-card:hover {
-          border-color: #ff572277;
-          background: #ff57220b;
-          box-shadow: 0 20px 60px #00000055;
+          transform: translateY(-7px);
+          border-color: rgba(255, 100, 40, 0.4);
         }
 
-        .project-card:hover::before {
-          opacity: .4;
-        }
-
-        .project-top {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-        }
-
-        .project-number {
-          color: #ff7043;
-          font-size: 12px;
-          letter-spacing: 3px;
-        }
-
-        .project-symbol {
-          width: 65px;
-          height: 65px;
+        .project-visual {
+          position: relative;
           display: grid;
           place-items: center;
-          border: 1px solid #ff572255;
-          border-radius: 18px;
-          background: #ff572211;
-          font-size: 30px;
-          transition: transform .4s ease;
+          min-height: 245px;
+          overflow: hidden;
+          background:
+            radial-gradient(circle at 50% 50%, rgba(255, 80, 20, 0.16), transparent 55%),
+            #15100e;
         }
 
-        .project-card:hover .project-symbol {
-          transform: rotate(10deg) scale(1.12);
+        .project-visual::after {
+          position: absolute;
+          inset: 0;
+          content: '';
+          opacity: 0.18;
+          background-image: linear-gradient(rgba(255,255,255,0.08) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(255,255,255,0.08) 1px, transparent 1px);
+          background-size: 32px 32px;
+          mask-image: linear-gradient(transparent, black, transparent);
+        }
+
+        .project-index {
+          position: absolute;
+          top: 20px;
+          left: 20px;
+          z-index: 2;
+          color: #b58b77;
+          font-size: 8px;
+          letter-spacing: 2px;
+        }
+
+        .project-art {
+          position: relative;
+          display: grid;
+          place-items: center;
+          width: 190px;
+          height: 170px;
+        }
+
+        .project-art-ring {
+          position: absolute;
+          width: 145px;
+          height: 145px;
+          border: 1px solid rgba(255, 105, 45, 0.25);
+          border-radius: 50%;
+          animation: projectOrbit 18s linear infinite;
+        }
+
+        .project-ring-two {
+          width: 180px;
+          height: 110px;
+          transform: rotate(35deg);
+          border-color: rgba(255, 105, 45, 0.16);
+          animation-direction: reverse;
+        }
+
+        .project-icon {
+          position: relative;
+          z-index: 1;
+          display: grid;
+          place-items: center;
+          width: 85px;
+          height: 85px;
+          color: #ff7138;
+          border: 1px solid rgba(255, 110, 45, 0.3);
+          border-radius: 23px;
+          background: rgba(255, 80, 20, 0.09);
+          box-shadow: 0 0 55px rgba(255, 70, 0, 0.16);
+        }
+
+        .project-art-caption {
+          position: absolute;
+          bottom: -3px;
+          color: #a88a7b;
+          font-size: 8px;
+          letter-spacing: 2px;
+        }
+
+        .project-visual-mark {
+          position: absolute;
+          right: 18px;
+          bottom: 12px;
+          color: rgba(255, 255, 255, 0.13);
+          font-size: 42px;
+          font-weight: 900;
+        }
+
+        .project-content {
+          padding: 25px 22px 20px;
         }
 
         .project-category {
-          color: #ff7043;
-          font-size: 10px;
-          letter-spacing: 3px;
-          margin-top: 38px;
+          color: #ff7138;
+          font-size: 8px;
+          font-weight: 700;
+          letter-spacing: 1.7px;
         }
 
-        .project-card h3 {
-          font-size: 28px;
-          margin-top: 13px;
-          letter-spacing: -1px;
+        .project-content h3 {
+          margin: 13px 0 10px;
+          font-size: 22px;
+          letter-spacing: -0.7px;
         }
 
-        .project-description {
-          color: #999;
-          font-size: 14px;
-          line-height: 1.8;
-          margin-top: 15px;
+        .project-content > p {
+          min-height: 75px;
+          margin: 0;
+          color: #938b85;
+          font-size: 12px;
+          line-height: 1.85;
         }
 
         .project-tags {
           display: flex;
           flex-wrap: wrap;
-          gap: 8px;
-          margin-top: 22px;
+          gap: 7px;
+          margin-top: 19px;
         }
 
         .project-tags span {
-          color: #d2b5a9;
-          background: #ff572211;
-          border: 1px solid #ff572233;
-          border-radius: 30px;
-          padding: 7px 11px;
-          font-size: 10px;
+          padding: 7px 9px;
+          color: #c5b5aa;
+          border: 1px solid rgba(255, 255, 255, 0.08);
+          border-radius: 5px;
+          font-size: 9px;
         }
 
-        .project-bottom {
+        .project-card-footer {
           display: flex;
-          justify-content: space-between;
           align-items: center;
-          margin-top: 27px;
-          padding-top: 18px;
-          border-top: 1px solid #ffffff15;
+          justify-content: space-between;
+          margin-top: 23px;
+          padding-top: 16px;
+          border-top: 1px solid rgba(255, 255, 255, 0.08);
+          color: #ff7138;
         }
 
-        .project-status {
-          color: #ff7043;
-          font-size: 10px;
+        .project-card-footer span {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          color: #a99588;
+          font-size: 8px;
+          letter-spacing: 1px;
+        }
+
+        .project-card-footer i {
+          width: 6px;
+          height: 6px;
+          border-radius: 50%;
+          background: #ff7138;
+          box-shadow: 0 0 9px #ff7138;
+        }
+
+        .projects-bottom {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 25px;
+          margin-top: 65px;
+          padding: 30px;
+          border: 1px solid rgba(255, 100, 40, 0.17);
+          border-radius: 13px;
+          background: linear-gradient(110deg, rgba(255, 75, 0, 0.08), rgba(255, 255, 255, 0.015));
+        }
+
+        .projects-bottom-label {
+          color: #ff7138;
+          font-size: 9px;
           letter-spacing: 2px;
         }
 
-        .project-arrow {
-          color: #ff5722;
-          font-size: 23px;
+        .projects-bottom h3 {
+          margin: 12px 0 0;
+          font-size: clamp(19px, 3vw, 29px);
+          letter-spacing: -1px;
         }
 
-        .projects-note {
-          margin-top: 35px;
-          color: #888;
-          font-size: 13px;
-          line-height: 1.8;
+        .projects-bottom h3 span {
+          color: #ff7138;
         }
 
-        @media (max-width: 750px) {
+        .projects-contact-link {
+          display: inline-flex;
+          align-items: center;
+          gap: 13px;
+          flex-shrink: 0;
+          color: #ff7138;
+          text-decoration: none;
+          font-size: 9px;
+          font-weight: 800;
+          letter-spacing: 2px;
+          transition: gap 0.3s ease;
+        }
+
+        .projects-contact-link:hover {
+          gap: 21px;
+        }
+
+        @keyframes projectOrbit {
+          from { rotate: 0deg; }
+          to { rotate: 360deg; }
+        }
+
+        @media (max-width: 950px) {
+          .projects-grid {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+          }
+        }
+
+        @media (max-width: 650px) {
           .projects-section {
-            padding: 85px 7%;
+            padding: 85px 6% 75px;
+          }
+
+          .projects-heading h2 {
+            letter-spacing: -2px;
           }
 
           .projects-grid {
             grid-template-columns: 1fr;
-            gap: 18px;
-            margin-top: 40px;
           }
 
-          .projects-heading {
-            letter-spacing: -2px;
-          }
-
-          .project-card {
-            min-height: 370px;
-            padding: 25px;
+          .projects-bottom {
+            align-items: flex-start;
+            flex-direction: column;
+            padding: 24px;
           }
         }
       `}</style>
-
-      <section className="projects-section" id="projects">
-        <div className="projects-inner">
-
-          <motion.div
-            initial={{ opacity: 0, y: 45 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.25 }}
-            transition={{ duration: 0.8 }}
-          >
-            <p className="projects-label">
-              04 / SELECTED PROJECTS
-            </p>
-
-            <h2 className="projects-heading">
-              IDEAS INTO
-              <br />
-              <span>REALITY.</span>
-            </h2>
-
-            <p className="projects-intro">
-              Every project is an opportunity to experiment,
-              learn something new and transform an idea into
-              something meaningful.
-            </p>
-          </motion.div>
-
-          <motion.div
-            className="projects-grid"
-            variants={projectContainer}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.1 }}
-          >
-            {projects.map((project) => (
-              <motion.article
-                className="project-card"
-                key={project.number}
-                variants={projectItem}
-                whileHover={{ y: -9, scale: 1.015 }}
-              >
-                <div className="project-top">
-                  <span className="project-number">
-                    / {project.number}
-                  </span>
-
-                  <div className="project-symbol">
-                    {project.symbol}
-                  </div>
-                </div>
-
-                <p className="project-category">
-                  {project.category}
-                </p>
-
-                <h3>{project.title}</h3>
-
-                <p className="project-description">
-                  {project.description}
-                </p>
-
-                <div className="project-tags">
-                  {project.technologies.map((technology) => (
-                    <span key={technology}>
-                      {technology}
-                    </span>
-                  ))}
-                </div>
-
-                <div className="project-bottom">
-                  <span className="project-status">
-                    {project.status}
-                  </span>
-
-                  <span className="project-arrow">↗</span>
-                </div>
-              </motion.article>
-            ))}
-          </motion.div>
-
-          <p className="projects-note">
-            * Project cards currently contain sample content.
-            Real project details, images and GitHub links will
-            be added after they are confirmed.
-          </p>
-
-        </div>
-      </section>
-    </>
-  );
+    </section>
+  )
 }
-
-export default Projects;
