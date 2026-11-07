@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 
+import BackToTop from './components/BackToTop'
 import Navbar from "./components/Navbar";
 import Loader from "./components/Loader";
 import ScrollProgress from "./components/ScrollProgress";
