@@ -1,372 +1,417 @@
-import { motion } from "framer-motion";
+import { motion } from 'framer-motion'
+import {
+  BrainCircuit,
+  Code2,
+  Cpu,
+  Database,
+  Globe,
+  Layers3,
+  Sparkles,
+  Terminal,
+  Wrench,
+} from 'lucide-react'
 
-const skills = [
+const skillGroups = [
   {
-    number: "01",
-    icon: "🤖",
-    title: "Artificial Intelligence",
-    description:
-      "Exploring intelligent systems, machine learning and the future of AI.",
-    tags: ["AI", "Machine Learning", "Python"],
+    number: '01',
+    title: 'PROGRAMMING',
+    subtitle: 'The language of creation',
+    icon: Code2,
+    skills: ['Python', 'C / C++', 'JavaScript', 'Problem Solving'],
   },
   {
-    number: "02",
-    icon: "⚙️",
-    title: "Robotics",
-    description:
-      "Understanding automation, robotics fundamentals and smart machines.",
-    tags: ["Robotics", "Automation", "Electronics"],
+    number: '02',
+    title: 'AI & MACHINE LEARNING',
+    subtitle: 'Building intelligent systems',
+    icon: BrainCircuit,
+    skills: ['Artificial Intelligence', 'Machine Learning', 'Data Science', 'Neural Networks'],
   },
   {
-    number: "03",
-    icon: "💻",
-    title: "Programming",
-    description:
-      "Building programming foundations and learning to solve problems with code.",
-    tags: ["C", "Python", "JavaScript"],
+    number: '03',
+    title: 'ROBOTICS',
+    subtitle: 'Connecting code with reality',
+    icon: Cpu,
+    skills: ['Robotics Fundamentals', 'Electronics', 'Sensors', 'Automation'],
   },
   {
-    number: "04",
-    icon: "🌐",
-    title: "Web Development",
-    description:
-      "Creating modern interfaces and exploring interactive web experiences.",
-    tags: ["HTML", "CSS", "React"],
+    number: '04',
+    title: 'TOOLS & TECHNOLOGY',
+    subtitle: 'The builder toolkit',
+    icon: Wrench,
+    skills: ['Git & GitHub', 'Linux', 'VS Code', 'Terminal'],
   },
-  {
-    number: "05",
-    icon: "🧠",
-    title: "Problem Solving",
-    description:
-      "Developing logical thinking and approaching challenges with creativity.",
-    tags: ["Logic", "Algorithms", "Research"],
-  },
-  {
-    number: "06",
-    icon: "🚀",
-    title: "Future Technologies",
-    description:
-      "Discovering emerging technologies and experimenting with new ideas.",
-    tags: ["Innovation", "Technology", "Learning"],
-  },
-];
+]
 
-const skillsContainer = {
-  hidden: {},
-  visible: {
-    transition: {
-      staggerChildren: 0.13,
-    },
-  },
-};
+const technologies = [
+  { name: 'Python', icon: Terminal },
+  { name: 'AI / ML', icon: BrainCircuit },
+  { name: 'Robotics', icon: Cpu },
+  { name: 'Web Development', icon: Globe },
+  { name: 'Data', icon: Database },
+  { name: 'Creative Tech', icon: Layers3 },
+]
 
-const skillItem = {
-  hidden: {
-    opacity: 0,
-    y: 45,
-    scale: 0.96,
-  },
-  visible: {
-    opacity: 1,
-    y: 0,
-    scale: 1,
-    transition: {
-      duration: 0.65,
-      ease: "easeOut" as const,
-    },
-  },
-};
-
-function Skills() {
+export default function Skills() {
   return (
-    <>
+    <section id="skills" className="skills-section">
+      <div className="skills-container">
+        <motion.div
+          className="skills-heading"
+          initial={{ opacity: 0, y: 35 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.7 }}
+        >
+          <span className="skills-eyebrow">
+            <Sparkles size={14} />
+            THE TECHNOLOGY TOOLKIT
+          </span>
+
+          <h2>
+            SKILLS & <span>EXPLORATION.</span>
+          </h2>
+
+          <p>
+            Learning the tools, understanding the systems and developing the
+            skills to turn ideas into reality.
+          </p>
+        </motion.div>
+
+        <div className="skills-grid">
+          {skillGroups.map((group, index) => {
+            const Icon = group.icon
+
+            return (
+              <motion.article
+                className="skill-card"
+                key={group.number}
+                initial={{ opacity: 0, y: 35 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.2 }}
+                transition={{ duration: 0.6, delay: index * 0.1 }}
+              >
+                <div className="skill-card-top">
+                  <span>{group.number} / 04</span>
+                  <Icon size={23} />
+                </div>
+
+                <h3>{group.title}</h3>
+                <p className="skill-subtitle">{group.subtitle}</p>
+
+                <div className="skill-divider" />
+
+                <div className="skill-tags">
+                  {group.skills.map((skill) => (
+                    <span key={skill}>{skill}</span>
+                  ))}
+                </div>
+
+                <div className="skill-card-glow" />
+              </motion.article>
+            )
+          })}
+        </div>
+
+        <motion.div
+          className="skills-exploring"
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.7 }}
+        >
+          <div className="exploring-heading">
+            <div>
+              <span className="skills-eyebrow">CURRENT INTERESTS</span>
+              <h3>ALWAYS <span>EXPLORING.</span></h3>
+            </div>
+
+            <span className="exploring-status">
+              <i />
+              LEARNING MODE
+            </span>
+          </div>
+
+          <div className="technology-grid">
+            {technologies.map((tech) => {
+              const Icon = tech.icon
+
+              return (
+                <div className="technology-item" key={tech.name}>
+                  <Icon size={19} />
+                  <span>{tech.name}</span>
+                </div>
+              )
+            })}
+          </div>
+        </motion.div>
+
+        <div className="skills-footer">
+          <span>CURIOUS BY NATURE.</span>
+          <div />
+          <span>BUILT THROUGH EXPERIMENTATION.</span>
+        </div>
+      </div>
+
       <style>{`
         .skills-section {
           position: relative;
           overflow: hidden;
-          padding: 120px 10%;
-          background: #080707;
-          color: #ffffff;
+          padding: 120px 7% 105px;
+          color: #f5f1ed;
+          background:
+            radial-gradient(ellipse at 50% 100%, rgba(255, 75, 0, 0.08), transparent 45%),
+            #080808;
         }
 
-        .skills-section::before {
-          content: "";
-          position: absolute;
-          left: 30%;
-          top: 25%;
-          width: 300px;
-          height: 300px;
-          border-radius: 50%;
-          background: #ff4500;
-          filter: blur(150px);
-          opacity: .12;
-          pointer-events: none;
-        }
-
-        .skills-inner {
-          max-width: 1200px;
-          margin: auto;
-          position: relative;
-          z-index: 1;
-        }
-
-        .skills-label {
-          color: #ff7043;
-          font-size: 12px;
-          font-weight: 700;
-          letter-spacing: 5px;
-          margin-bottom: 22px;
+        .skills-container {
+          max-width: 1250px;
+          margin: 0 auto;
         }
 
         .skills-heading {
-          font-size: clamp(40px, 6vw, 72px);
-          line-height: 1.05;
-          letter-spacing: -3px;
+          max-width: 800px;
+          margin-bottom: 55px;
         }
 
-        .skills-heading span {
-          color: #ff5722;
+        .skills-eyebrow {
+          display: inline-flex;
+          align-items: center;
+          gap: 9px;
+          color: #ff7138;
+          font-size: 10px;
+          font-weight: 700;
+          letter-spacing: 3px;
         }
 
-        .skills-intro {
-          color: #999;
-          max-width: 570px;
-          font-size: 15px;
+        .skills-heading h2 {
+          margin: 18px 0;
+          font-size: clamp(40px, 6.5vw, 78px);
+          line-height: 1;
+          font-weight: 900;
+          letter-spacing: -4px;
+        }
+
+        .skills-heading h2 span,
+        .exploring-heading h3 span {
+          color: #ff6128;
+          text-shadow: 0 0 30px rgba(255, 75, 0, 0.2);
+        }
+
+        .skills-heading > p {
+          max-width: 590px;
+          color: #918b86;
+          font-size: 14px;
           line-height: 1.9;
-          margin-top: 22px;
         }
 
         .skills-grid {
           display: grid;
-          grid-template-columns: repeat(3, 1fr);
-          gap: 20px;
-          margin-top: 60px;
+          grid-template-columns: repeat(2, 1fr);
+          gap: 18px;
         }
 
         .skill-card {
           position: relative;
-          min-height: 300px;
-          padding: 30px;
-          border: 1px solid #ffffff18;
-          border-radius: 18px;
+          min-height: 235px;
+          padding: 28px;
           overflow: hidden;
-          background: linear-gradient(
-            145deg,
-            #ffffff0c,
-            #ffffff03
-          );
-          backdrop-filter: blur(14px);
-          transition:
-            border-color .4s ease,
-            background .4s ease,
-            box-shadow .4s ease;
-        }
-
-        .skill-card::before {
-          content: "";
-          position: absolute;
-          width: 160px;
-          height: 160px;
-          right: -100px;
-          top: -100px;
-          border-radius: 50%;
-          background: #ff5722;
-          filter: blur(65px);
-          opacity: 0;
-          transition: opacity .4s ease;
-          pointer-events: none;
+          border: 1px solid rgba(255, 255, 255, 0.075);
+          border-radius: 15px;
+          background: linear-gradient(140deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.012));
+          transition: transform 0.35s ease, border-color 0.35s ease;
         }
 
         .skill-card:hover {
-          border-color: #ff572277;
-          background: #ff57220a;
-          box-shadow: 0 15px 45px #00000055;
+          transform: translateY(-5px);
+          border-color: rgba(255, 105, 45, 0.4);
         }
 
-        .skill-card:hover::before {
-          opacity: .35;
-        }
-
-        .skill-top {
+        .skill-card-top {
           display: flex;
           justify-content: space-between;
           align-items: center;
+          color: #ff7138;
         }
 
-        .skill-number {
-          color: #ff7043;
-          font-size: 12px;
-          letter-spacing: 3px;
-        }
-
-        .skill-icon {
-          width: 55px;
-          height: 55px;
-          display: grid;
-          place-items: center;
-          border-radius: 15px;
-          border: 1px solid #ff572255;
-          background: #ff572211;
-          font-size: 25px;
-          transition: transform .4s ease;
-        }
-
-        .skill-card:hover .skill-icon {
-          transform: rotate(8deg) scale(1.12);
+        .skill-card-top span {
+          font-size: 9px;
+          letter-spacing: 2px;
+          color: #92786c;
         }
 
         .skill-card h3 {
-          margin-top: 32px;
-          font-size: 21px;
+          position: relative;
+          z-index: 1;
+          margin: 27px 0 7px;
+          font-size: 19px;
+          letter-spacing: 0.5px;
         }
 
-        .skill-description {
-          color: #999;
-          font-size: 13px;
-          line-height: 1.8;
-          margin-top: 13px;
-          min-height: 70px;
+        .skill-subtitle {
+          position: relative;
+          z-index: 1;
+          margin: 0;
+          color: #8f8883;
+          font-size: 11px;
+        }
+
+        .skill-divider {
+          width: 100%;
+          height: 1px;
+          margin: 22px 0 17px;
+          background: rgba(255, 255, 255, 0.09);
         }
 
         .skill-tags {
+          position: relative;
+          z-index: 1;
           display: flex;
           flex-wrap: wrap;
-          gap: 8px;
-          margin-top: 20px;
+          gap: 9px;
         }
 
         .skill-tags span {
-          color: #d2b5a9;
-          background: #ff572211;
-          border: 1px solid #ff572233;
-          border-radius: 30px;
-          padding: 7px 11px;
+          padding: 8px 11px;
+          color: #d1c5bd;
+          border: 1px solid rgba(255, 255, 255, 0.08);
+          border-radius: 6px;
+          background: rgba(0, 0, 0, 0.2);
           font-size: 10px;
         }
 
-        .skills-note {
-          margin-top: 35px;
-          padding: 25px 30px;
-          border-left: 3px solid #ff5722;
-          background: linear-gradient(
-            90deg,
-            #ff572214,
-            transparent
-          );
-          color: #aaa;
-          font-size: 14px;
-          line-height: 1.8;
+        .skill-card-glow {
+          position: absolute;
+          right: -80px;
+          bottom: -120px;
+          width: 220px;
+          height: 220px;
+          border-radius: 50%;
+          background: rgba(255, 65, 0, 0.08);
+          filter: blur(65px);
+          pointer-events: none;
         }
 
-        .skills-note strong {
-          color: #ffffff;
+        .skills-exploring {
+          margin-top: 65px;
+          padding: 32px;
+          border: 1px solid rgba(255, 110, 50, 0.16);
+          border-radius: 15px;
+          background: linear-gradient(120deg, rgba(255, 80, 20, 0.07), rgba(255, 255, 255, 0.015));
         }
 
-        @media (max-width: 900px) {
+        .exploring-heading {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 20px;
+          margin-bottom: 28px;
+        }
+
+        .exploring-heading h3 {
+          margin: 12px 0 0;
+          font-size: clamp(23px, 3vw, 32px);
+          letter-spacing: -1px;
+        }
+
+        .exploring-status {
+          display: inline-flex;
+          align-items: center;
+          gap: 9px;
+          color: #b4a69e;
+          font-size: 9px;
+          letter-spacing: 1.5px;
+        }
+
+        .exploring-status i {
+          width: 7px;
+          height: 7px;
+          border-radius: 50%;
+          background: #ff7138;
+          box-shadow: 0 0 12px #ff7138;
+        }
+
+        .technology-grid {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 12px;
+        }
+
+        .technology-item {
+          display: flex;
+          align-items: center;
+          gap: 12px;
+          padding: 17px;
+          color: #d8ccc4;
+          border: 1px solid rgba(255, 255, 255, 0.07);
+          border-radius: 9px;
+          background: rgba(0, 0, 0, 0.18);
+          font-size: 11px;
+          transition: color 0.3s ease, border-color 0.3s ease;
+        }
+
+        .technology-item svg {
+          color: #ff7138;
+        }
+
+        .technology-item:hover {
+          color: #fff;
+          border-color: rgba(255, 105, 45, 0.35);
+        }
+
+        .skills-footer {
+          display: flex;
+          align-items: center;
+          gap: 17px;
+          margin-top: 55px;
+          color: #8e8580;
+          font-size: 9px;
+          letter-spacing: 2px;
+        }
+
+        .skills-footer div {
+          flex: 1;
+          height: 1px;
+          background: rgba(255, 255, 255, 0.1);
+        }
+
+        @media (max-width: 750px) {
           .skills-grid {
+            grid-template-columns: 1fr;
+          }
+
+          .technology-grid {
             grid-template-columns: repeat(2, 1fr);
           }
         }
 
-        @media (max-width: 600px) {
+        @media (max-width: 550px) {
           .skills-section {
-            padding: 85px 7%;
+            padding: 85px 6% 75px;
           }
 
-          .skills-heading {
+          .skills-heading h2 {
             letter-spacing: -2px;
           }
 
-          .skills-grid {
-            grid-template-columns: 1fr;
-            gap: 16px;
-            margin-top: 40px;
+          .skill-card {
+            padding: 23px;
           }
 
-          .skill-card {
-            min-height: 270px;
+          .skills-exploring {
+            padding: 22px;
+          }
+
+          .exploring-heading {
+            align-items: flex-start;
+            flex-direction: column;
+          }
+
+          .skills-footer {
+            flex-wrap: wrap;
+            line-height: 1.8;
           }
         }
       `}</style>
-
-      <section className="skills-section" id="skills">
-        <div className="skills-inner">
-          <motion.div
-            initial={{ opacity: 0, y: 45 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.25 }}
-            transition={{ duration: 0.8 }}
-          >
-            <p className="skills-label">03 / SKILLS & EXPERTISE</p>
-
-            <h2 className="skills-heading">
-              KNOWLEDGE
-              <br />
-              <span>IN PROGRESS.</span>
-            </h2>
-
-            <p className="skills-intro">
-              Every skill starts with curiosity. Exploring
-              technology, developing new abilities and turning
-              knowledge into practical experience.
-            </p>
-          </motion.div>
-
-          <motion.div
-            className="skills-grid"
-            variants={skillsContainer}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.1 }}
-          >
-            {skills.map((skill) => (
-              <motion.article
-                className="skill-card"
-                key={skill.number}
-                variants={skillItem}
-                whileHover={{ y: -8, scale: 1.02 }}
-              >
-                <div className="skill-top">
-                  <span className="skill-number">
-                    / {skill.number}
-                  </span>
-
-                  <div className="skill-icon">
-                    {skill.icon}
-                  </div>
-                </div>
-
-                <h3>{skill.title}</h3>
-
-                <p className="skill-description">
-                  {skill.description}
-                </p>
-
-                <div className="skill-tags">
-                  {skill.tags.map((tag) => (
-                    <span key={tag}>{tag}</span>
-                  ))}
-                </div>
-              </motion.article>
-            ))}
-          </motion.div>
-
-          <motion.div
-            className="skills-note"
-            initial={{ opacity: 0, y: 25 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.3 }}
-            transition={{ duration: 0.7 }}
-          >
-            <strong>Always learning. Always evolving.</strong>
-            <br />
-            These are learning areas, not claims of professional
-            expertise. The journey is just getting started.
-          </motion.div>
-        </div>
-      </section>
-    </>
-  );
+    </section>
+  )
 }
-
-export default Skills;
