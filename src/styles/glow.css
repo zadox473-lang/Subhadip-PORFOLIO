@@ -1,0 +1,393 @@
+/* =========================================================
+   SUBHADIP PORTFOLIO: PREMIUM GLOW LAYER
+   Deep black + fiery orange + amber + golden highlights.
+   Loaded last (index.css), every rule is scoped with `.app`
+   so it overrides the section styles without editing them.
+   The Hero section is intentionally not touched.
+   ========================================================= */
+
+:root {
+  --gl-black: #050403;
+  --gl-orange: #ff5a14;
+  --gl-amber: #ff9a2e;
+  --gl-gold: #ffc35a;
+  --gl-ember: rgba(255, 90, 20, 0.55);
+}
+
+/* ---------------------------------------------------------
+   1. SECTION ATMOSPHERE (different intensity per section)
+   --------------------------------------------------------- */
+
+.app .about-section,
+.app .university-section,
+.app .skills-section,
+.app .projects-section,
+.app .achievements-section,
+.app .contact-section {
+  background-color: var(--gl-black);
+}
+
+.app .about-section {
+  background-image:
+    linear-gradient(to bottom, rgba(255, 95, 20, 0.1), transparent 130px),
+    radial-gradient(ellipse at 6% 42%, rgba(255, 90, 12, 0.2), transparent 40%),
+    radial-gradient(ellipse at 94% 88%, rgba(255, 160, 40, 0.1), transparent 38%);
+}
+
+.app .university-section {
+  background-image:
+    linear-gradient(to bottom, rgba(255, 95, 20, 0.08), transparent 120px),
+    radial-gradient(ellipse at 92% 50%, rgba(255, 85, 10, 0.17), transparent 42%),
+    radial-gradient(ellipse at 8% 8%, rgba(255, 165, 50, 0.08), transparent 34%);
+}
+
+.app .skills-section {
+  background-image:
+    linear-gradient(to bottom, rgba(255, 95, 20, 0.08), transparent 120px),
+    radial-gradient(ellipse at 50% 108%, rgba(255, 90, 12, 0.22), transparent 48%),
+    radial-gradient(ellipse at 88% 18%, rgba(255, 190, 80, 0.09), transparent 34%);
+}
+
+.app .projects-section {
+  background-image:
+    linear-gradient(to bottom, rgba(255, 95, 20, 0.08), transparent 120px),
+    radial-gradient(ellipse at 8% 62%, rgba(255, 85, 10, 0.17), transparent 40%),
+    radial-gradient(ellipse at 92% 4%, rgba(255, 160, 40, 0.1), transparent 36%);
+}
+
+.app .achievements-section {
+  background-image:
+    linear-gradient(to bottom, rgba(255, 95, 20, 0.08), transparent 120px),
+    radial-gradient(ellipse at 92% 28%, rgba(255, 175, 60, 0.15), transparent 40%),
+    radial-gradient(ellipse at 10% 92%, rgba(255, 85, 10, 0.13), transparent 40%);
+}
+
+.app .contact-section {
+  background-image:
+    linear-gradient(to bottom, rgba(255, 95, 20, 0.08), transparent 120px),
+    radial-gradient(ellipse at 50% 112%, rgba(255, 90, 12, 0.32), transparent 52%),
+    radial-gradient(ellipse at 100% 0%, rgba(255, 165, 45, 0.12), transparent 38%),
+    radial-gradient(ellipse at 0% 60%, rgba(255, 80, 10, 0.1), transparent 36%);
+}
+
+.app .contact-glow {
+  background: rgba(255, 110, 20, 0.16);
+}
+
+/* ---------------------------------------------------------
+   2. ENERGY LINE BETWEEN SECTIONS
+   A glowing line with a light that travels along it.
+   --------------------------------------------------------- */
+
+.app main > section:not(#home) {
+  position: relative;
+}
+
+.app main > section:not(#home)::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 2px;
+  z-index: 3;
+  pointer-events: none;
+  background:
+    radial-gradient(
+      ellipse at center,
+      rgba(255, 235, 170, 0.95),
+      rgba(255, 170, 60, 0.6) 35%,
+      transparent 72%
+    ) 0% 0% / 16% 100% no-repeat,
+    linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(255, 90, 20, 0.55) 22%,
+      var(--gl-amber) 50%,
+      rgba(255, 90, 20, 0.55) 78%,
+      transparent 100%
+    );
+  box-shadow:
+    0 0 20px 2px rgba(255, 100, 20, 0.55),
+    0 -22px 70px 8px rgba(255, 90, 10, 0.16),
+    0 22px 70px 8px rgba(255, 90, 10, 0.12);
+  animation: glEnergy 9s ease-in-out infinite alternate;
+}
+
+@keyframes glEnergy {
+  from {
+    background-position: 0% 0%, 0 0;
+    opacity: 0.75;
+  }
+  to {
+    background-position: 100% 0%, 0 0;
+    opacity: 1;
+  }
+}
+
+/* ---------------------------------------------------------
+   3. DARK GLASS CARDS WITH GOLDEN-ORANGE BORDER GLOW
+   --------------------------------------------------------- */
+
+.app :is(
+  .about-orbit-card,
+  .about-highlight,
+  .about-stat,
+  .university-main-card,
+  .skill-card,
+  .technology-item,
+  .skills-exploring,
+  .project-card,
+  .achievement-side-card,
+  .contact-card
+) {
+  border: 1px solid rgba(255, 150, 60, 0.2);
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255, 128, 40, 0.08),
+      rgba(18, 11, 8, 0.74) 42%,
+      rgba(6, 5, 4, 0.88)
+    );
+  box-shadow:
+    inset 0 1px 0 rgba(255, 205, 130, 0.1),
+    0 14px 44px rgba(0, 0, 0, 0.55),
+    0 0 26px rgba(255, 95, 20, 0.06);
+  transition:
+    transform 0.35s ease,
+    border-color 0.35s ease,
+    box-shadow 0.35s ease,
+    color 0.3s ease;
+}
+
+.app :is(
+  .about-highlight,
+  .skill-card,
+  .technology-item,
+  .project-card,
+  .contact-card,
+  .university-main-card,
+  .achievement-side-card
+):hover {
+  border-color: rgba(255, 175, 75, 0.55);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 215, 140, 0.18),
+    0 18px 54px rgba(0, 0, 0, 0.6),
+    0 0 38px rgba(255, 100, 20, 0.2);
+}
+
+/* the big cards get a soft blur (kept off on phones for speed) */
+.app :is(
+  .about-orbit-card,
+  .university-main-card,
+  .achievement-side-card,
+  .skills-exploring,
+  .contact-card
+) {
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+}
+
+.app .about-orbit-card {
+  background:
+    radial-gradient(circle, rgba(255, 90, 12, 0.22), transparent 55%),
+    linear-gradient(145deg, rgba(24, 14, 9, 0.85), rgba(6, 5, 4, 0.92) 70%);
+}
+
+.app .skills-exploring {
+  background:
+    linear-gradient(
+      120deg,
+      rgba(255, 110, 30, 0.12),
+      rgba(255, 190, 80, 0.03) 60%,
+      rgba(8, 6, 5, 0.6)
+    );
+}
+
+.app .milestone-marker {
+  border-color: rgba(255, 160, 60, 0.45);
+  background: linear-gradient(145deg, #2a160c, #0d0906);
+  box-shadow:
+    0 0 26px rgba(255, 95, 20, 0.28),
+    inset 0 1px 0 rgba(255, 205, 130, 0.15);
+}
+
+.app .milestone-timeline::before {
+  background: linear-gradient(
+    to bottom,
+    var(--gl-gold),
+    var(--gl-orange) 45%,
+    rgba(255, 90, 20, 0.05)
+  );
+  box-shadow: 0 0 12px rgba(255, 100, 20, 0.6);
+}
+
+.app :is(.skill-tags span, .project-tags span) {
+  border-color: rgba(255, 140, 50, 0.24);
+}
+
+/* ---------------------------------------------------------
+   4. HEADINGS: GOLD-TO-ORANGE ACCENT TEXT
+   --------------------------------------------------------- */
+
+.app :is(
+  .about-heading h2 span,
+  .university-heading h2 span,
+  .projects-heading h2 span,
+  .achievements-heading h2 span,
+  .contact-heading h2 span
+) {
+  background: linear-gradient(95deg, #ff5a14 10%, #ff9a2e 60%, #ffc35a);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  text-shadow: none;
+  filter: drop-shadow(0 0 22px rgba(255, 90, 20, 0.35));
+}
+
+/* ---------------------------------------------------------
+   5. BUTTONS AND LINKS
+   --------------------------------------------------------- */
+
+.app .contact-main-button {
+  background: linear-gradient(135deg, #ff4a10, #ff8a1f 60%, #ffb347);
+  color: #1a0a02;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 235, 190, 0.45),
+    0 10px 34px rgba(255, 90, 20, 0.35),
+    0 0 60px rgba(255, 90, 20, 0.16);
+}
+
+.app .contact-main-button:hover {
+  background: linear-gradient(135deg, #ff5a1a, #ff9a2e 60%, #ffc35a);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 240, 200, 0.55),
+    0 14px 44px rgba(255, 100, 20, 0.5),
+    0 0 80px rgba(255, 100, 20, 0.28);
+}
+
+.app :is(
+  .about-link,
+  .university-link,
+  .achievement-link,
+  .projects-contact-link
+) {
+  color: #ff8a3d;
+  text-shadow: 0 0 18px rgba(255, 100, 20, 0.45);
+}
+
+.app :is(
+  .about-link,
+  .university-link,
+  .achievement-link,
+  .projects-contact-link
+):hover {
+  color: var(--gl-gold);
+}
+
+.app :is(.about-link, .university-link, .achievement-link) {
+  border-bottom-color: rgba(255, 160, 70, 0.6);
+}
+
+/* ---------------------------------------------------------
+   6. ICON AURA, RINGS AND ORBITAL LIGHTS
+   --------------------------------------------------------- */
+
+.app :is(
+  .highlight-icon,
+  .project-icon,
+  .achievement-side-icon,
+  .contact-icon,
+  .university-detail-icon
+) {
+  box-shadow:
+    0 0 22px rgba(255, 95, 20, 0.28),
+    inset 0 0 14px rgba(255, 140, 50, 0.1);
+}
+
+.app .about-core {
+  filter: drop-shadow(0 0 28px rgba(255, 110, 25, 0.6));
+}
+
+.app :is(.orbit-ring, .project-art-ring) {
+  border-color: rgba(255, 150, 60, 0.38);
+  box-shadow:
+    0 0 18px rgba(255, 100, 20, 0.25),
+    inset 0 0 18px rgba(255, 100, 20, 0.12);
+}
+
+.app .orbit-ring-two,
+.app .project-ring-two {
+  border-color: rgba(255, 150, 60, 0.2);
+}
+
+/* a small golden light travelling around every ring */
+.app :is(.orbit-ring, .project-art-ring)::before {
+  content: "";
+  position: absolute;
+  top: -3px;
+  left: 50%;
+  width: 6px;
+  height: 6px;
+  margin-left: -3px;
+  border-radius: 50%;
+  background: var(--gl-gold);
+  box-shadow: 0 0 12px 3px rgba(255, 170, 60, 0.8);
+}
+
+.app .project-visual {
+  background:
+    radial-gradient(circle at 50% 50%, rgba(255, 100, 25, 0.26), transparent 58%),
+    #100b09;
+}
+
+.app .achievement-card-glow {
+  background: rgba(255, 110, 20, 0.2);
+}
+
+.app .skill-card-glow {
+  background: rgba(255, 110, 20, 0.14);
+}
+
+/* ---------------------------------------------------------
+   7. FOOTER LINE AND DIVIDERS
+   --------------------------------------------------------- */
+
+.app .contact-footer {
+  border-top-color: rgba(255, 150, 60, 0.25);
+}
+
+.app .about-bottom-line {
+  background: linear-gradient(90deg, rgba(255, 140, 50, 0.4), transparent);
+}
+
+/* ---------------------------------------------------------
+   8. PHONES: LIGHTER EFFECTS
+   --------------------------------------------------------- */
+
+@media (max-width: 800px) {
+  .app :is(
+    .about-orbit-card,
+    .university-main-card,
+    .achievement-side-card,
+    .skills-exploring,
+    .contact-card
+  ) {
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+
+  .app main > section:not(#home)::after {
+    box-shadow:
+      0 0 14px 1px rgba(255, 100, 20, 0.5),
+      0 -14px 40px 4px rgba(255, 90, 10, 0.14),
+      0 14px 40px 4px rgba(255, 90, 10, 0.1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .app main > section:not(#home)::after {
+    animation: none;
+  }
+      }
