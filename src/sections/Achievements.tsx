@@ -41,7 +41,7 @@ const milestones = [
   },
   {
     number: '04',
-    year: 'WHAT'S NEXT',
+    year: "WHAT'S NEXT",
     title: 'Turning Ideas into Projects',
     description:
       'Working towards practical experiments and meaningful projects through continuous learning.',
