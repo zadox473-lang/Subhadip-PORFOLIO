@@ -1,557 +1,631 @@
 import { motion } from "framer-motion";
-import {
-  ArrowDown,
-  ArrowUpRight,
-  Sparkles,
-  Orbit,
-} from "lucide-react";
+import { ArrowRight, ChevronsDown, MessageCircle } from "lucide-react";
+import type { SVGProps, SyntheticEvent } from "react";
+
+/* ---------- Brand icons (lucide-react no longer ships these) ---------- */
+
+type IconProps = SVGProps<SVGSVGElement> & { size?: number };
+
+const iconBase = (size = 24) => ({
+  width: size,
+  height: size,
+  viewBox: "0 0 24 24",
+  fill: "none",
+  stroke: "currentColor",
+  strokeWidth: 2,
+  strokeLinecap: "round" as const,
+  strokeLinejoin: "round" as const,
+});
+
+const Github = ({ size, ...p }: IconProps) => (
+  <svg {...iconBase(size)} {...p}>
+    <path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4" />
+    <path d="M9 18c-4.51 2-5-2-7-2" />
+  </svg>
+);
+
+const Linkedin = ({ size, ...p }: IconProps) => (
+  <svg {...iconBase(size)} {...p}>
+    <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
+    <rect width="4" height="12" x="2" y="9" />
+    <circle cx="4" cy="4" r="2" />
+  </svg>
+);
+
+const Instagram = ({ size, ...p }: IconProps) => (
+  <svg {...iconBase(size)} {...p}>
+    <rect width="20" height="20" x="2" y="2" rx="5" ry="5" />
+    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+    <line x1="17.5" x2="17.51" y1="6.5" y2="6.5" />
+  </svg>
+);
+
+/* ---------- Content (placeholders: update later) ---------- */
+
+const socials = [
+  { label: "GitHub", href: "https://github.com/yourusername", icon: Github },
+  {
+    label: "LinkedIn",
+    href: "https://www.linkedin.com/in/yourusername",
+    icon: Linkedin,
+  },
+  {
+    label: "Instagram",
+    href: "https://www.instagram.com/yourusername",
+    icon: Instagram,
+  },
+  { label: "WhatsApp", href: "https://wa.me/91XXXXXXXXXX", icon: MessageCircle },
+];
+
+/* ---------- Image URLs (works on GitHub Pages base path) ---------- */
+
+const BASE = import.meta.env.BASE_URL;
+const PORTRAIT_SRC = `${BASE}images/profile/subhadip.png`;
+const ROBOT_SRC = `${BASE}images/robot/robot.png`;
+
+/* ---------- Animation timing (seconds) ----------
+   The app shows a loader for ~1.8s, so the sequence starts after it. */
+
+const START = 1.9;
+const T_NAME = START; // 1. name
+const T_ROBOT = START + 1.1; // 2. robot from top
+const T_PORTRAIT = START + 2.1; // 3. portrait from bottom
+const T_REST = START + 3.3; // 4. text, buttons, socials
+
+const ease = [0.22, 1, 0.36, 1] as const;
+
+const hideBroken = (e: SyntheticEvent<HTMLImageElement>) => {
+  e.currentTarget.style.visibility = "hidden";
+};
 
 export default function Hero() {
   return (
-    <section className="cinematic-hero" id="home">
+    <section className="rb-hero">
       <style>{`
-        .cinematic-hero {
+        @import url('https://fonts.googleapis.com/css2?family=Mrs+Saint+Delafield&display=swap');
+
+        .rb-hero {
           position: relative;
+          min-height: 100vh;
+          min-height: 100svh;
+          overflow: hidden;
+          isolation: isolate;
+          color: #fff;
+          background: #040101;
+        }
+
+        .rb-hero *,
+        .rb-hero *::before,
+        .rb-hero *::after {
+          box-sizing: border-box;
+        }
+
+        /* ---------- Atmosphere ---------- */
+
+        .rb-atmosphere {
+          position: absolute;
+          inset: 0;
+          z-index: 0;
+          pointer-events: none;
+          background:
+            radial-gradient(ellipse at 72% 50%, rgba(255, 20, 20, 0.34), transparent 52%),
+            radial-gradient(ellipse at 10% 95%, rgba(170, 10, 10, 0.3), transparent 45%),
+            radial-gradient(ellipse at 50% 0%, rgba(120, 5, 5, 0.28), transparent 50%);
+          animation: rb-pulse 4.8s ease-in-out infinite;
+        }
+
+        .rb-vignette {
+          position: absolute;
+          inset: 0;
+          z-index: 1;
+          pointer-events: none;
+          background:
+            linear-gradient(to right, rgba(0,0,0,.85) 0%, rgba(0,0,0,.35) 32%, transparent 55%),
+            linear-gradient(to top, rgba(0,0,0,.9) 0%, transparent 28%),
+            radial-gradient(ellipse at center, transparent 55%, rgba(0,0,0,.65) 100%);
+        }
+
+        @keyframes rb-pulse {
+          0%, 100% { opacity: .55; }
+          50% { opacity: 1; }
+        }
+
+        @keyframes rb-breathe {
+          0%, 100% {
+            opacity: .5;
+            text-shadow: 0 0 40px rgba(255, 30, 30, .35), 0 0 90px rgba(255, 0, 0, .18);
+          }
+          50% {
+            opacity: .68;
+            text-shadow: 0 0 60px rgba(255, 30, 30, .55), 0 0 130px rgba(255, 0, 0, .3);
+          }
+        }
+
+        /* ---------- Stage: giant word + portrait + robot ---------- */
+
+        .rb-stage {
+          position: absolute;
+          inset: 0;
+          z-index: 2;
+          pointer-events: none;
+        }
+
+        .rb-giant {
+          position: absolute;
+          top: 13%;
+          left: 50%;
+          transform: translateX(-50%);
+          width: 100%;
+          text-align: center;
+          white-space: nowrap;
+          font-family: 'Space Grotesk', 'DM Sans', sans-serif;
+          font-weight: 900;
+          font-size: clamp(90px, 21vw, 340px);
+          line-height: 1;
+          letter-spacing: -.02em;
+          text-transform: uppercase;
+          color: #c40a0a;
+          user-select: none;
+          animation: rb-breathe 4.8s ease-in-out infinite;
+        }
+
+        .rb-portrait {
+          position: absolute;
+          bottom: 0;
+          left: 55%;
+          transform: translateX(-50%);
+          height: 92%;
+          z-index: 3;
+        }
+
+        .rb-robot {
+          position: absolute;
+          bottom: 0;
+          right: 0;
+          height: 86%;
+          z-index: 2;
+        }
+
+        .rb-portrait img,
+        .rb-robot img {
+          display: block;
+          height: 100%;
+          width: auto;
+          max-width: none;
+          object-fit: contain;
+          object-position: bottom;
+          user-select: none;
+          -webkit-user-drag: none;
+        }
+
+        .rb-portrait img {
+          filter: drop-shadow(0 0 40px rgba(255, 30, 30, .28));
+          -webkit-mask-image: linear-gradient(to bottom, #000 82%, transparent 100%);
+          mask-image: linear-gradient(to bottom, #000 82%, transparent 100%);
+        }
+
+        .rb-robot img {
+          filter: drop-shadow(0 0 50px rgba(255, 20, 20, .4));
+        }
+
+        /* ---------- Copy ---------- */
+
+        .rb-content {
+          position: relative;
+          z-index: 5;
           min-height: 100vh;
           min-height: 100svh;
           display: flex;
           align-items: center;
-          overflow: hidden;
-          isolation: isolate;
-          box-sizing: border-box;
-          padding: 120px 8% 85px;
-          color: #fff;
-          background:
-            radial-gradient(ellipse at 78% 48%, rgba(255,65,20,.17), transparent 40%),
-            radial-gradient(ellipse at 8% 80%, rgba(130,25,5,.2), transparent 40%),
-            #070606;
+          padding: 110px 7% 90px;
         }
 
-        .cinematic-hero *,
-        .cinematic-hero *::before,
-        .cinematic-hero *::after {
-          box-sizing: border-box;
+        .rb-copy {
+          width: min(520px, 42%);
         }
 
-        .hero-noise {
-          position: absolute;
-          inset: 0;
-          z-index: -1;
-          opacity: .16;
-          pointer-events: none;
-          background-image:
-            linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px);
-          background-size: 55px 55px;
-          mask-image: linear-gradient(to bottom, black, transparent 95%);
-        }
-
-        .hero-glow {
-          position: absolute;
-          width: 420px;
-          height: 420px;
-          border-radius: 50%;
-          background: #ff451c;
-          filter: blur(170px);
-          opacity: .15;
-          right: 10%;
-          top: 25%;
-          z-index: -1;
-          pointer-events: none;
-        }
-
-        .hero-layout {
-          width: 100%;
-          max-width: 1450px;
-          margin: auto;
-          display: grid;
-          grid-template-columns: 1.1fr .9fr;
-          align-items: center;
-          gap: 45px;
-          position: relative;
-          z-index: 2;
-        }
-
-        .hero-copy {
-          position: relative;
-          z-index: 3;
-        }
-
-        .hero-eyebrow {
-          display: inline-flex;
-          align-items: center;
-          gap: 11px;
-          color: #ff9975;
-          border: 1px solid rgba(255,100,55,.3);
-          background: rgba(255,75,30,.07);
-          border-radius: 50px;
-          padding: 11px 17px;
-          font-size: 10px;
-          font-weight: 800;
-          letter-spacing: 2.5px;
-          margin-bottom: 28px;
-        }
-
-        .hero-live-dot {
-          width: 7px;
-          height: 7px;
-          border-radius: 50%;
-          background: #ff572b;
-          box-shadow: 0 0 14px #ff572b;
-        }
-
-        .hero-heading {
-          margin: 0;
-          font-size: clamp(58px, 8.5vw, 118px);
-          font-weight: 950;
-          line-height: .88;
-          letter-spacing: -6px;
-          text-transform: uppercase;
-        }
-
-        .hero-heading span {
+        .rb-hello {
           display: block;
-          color: #ff572b;
-          text-shadow: 0 0 45px rgba(255,65,25,.25);
+          font-family: 'Mrs Saint Delafield', 'Brush Script MT', cursive;
+          font-size: clamp(38px, 4vw, 62px);
+          line-height: 1;
+          color: #f1f1f1;
+          margin-bottom: 6px;
         }
 
-        .hero-description {
-          color: #aaa;
-          font-size: clamp(14px, 1.4vw, 17px);
-          line-height: 1.9;
-          max-width: 530px;
-          margin: 30px 0;
+        .rb-name {
+          margin: 0;
+          font-family: 'Space Grotesk', 'DM Sans', sans-serif;
+          font-weight: 900;
+          font-size: clamp(54px, 7vw, 108px);
+          line-height: .9;
+          letter-spacing: -.02em;
+          text-transform: uppercase;
+          background: linear-gradient(180deg, #ffffff 15%, #b5b5b5 55%, #7d7d7d 100%);
+          -webkit-background-clip: text;
+          background-clip: text;
+          -webkit-text-fill-color: transparent;
+          color: transparent;
+          filter: drop-shadow(0 6px 18px rgba(0,0,0,.6));
         }
 
-        .hero-description strong {
-          color: #fff;
+        .rb-name span {
+          display: block;
         }
 
-        .hero-buttons {
+        .rb-info {
+          margin-top: 26px;
+        }
+
+        .rb-year {
+          margin: 0;
+          font-size: clamp(15px, 1.5vw, 21px);
+          font-weight: 500;
+          color: #ececec;
+        }
+
+        .rb-role {
+          margin: 2px 0 6px;
+          font-family: 'Space Grotesk', 'DM Sans', sans-serif;
+          font-size: clamp(24px, 2.8vw, 40px);
+          font-weight: 800;
+          letter-spacing: .01em;
+          text-transform: uppercase;
+          color: #ff1f5a;
+          text-shadow: 0 0 28px rgba(255, 31, 90, .35);
+        }
+
+        .rb-uni {
+          margin: 0;
+          font-size: clamp(13px, 1.2vw, 16px);
+          color: #d8d8d8;
+        }
+
+        .rb-tagline {
+          display: flex;
+          flex-wrap: wrap;
+          align-items: center;
+          gap: 12px;
+          margin-top: 18px;
+          font-size: 13px;
+          color: #cfcfcf;
+        }
+
+        .rb-tagline b {
+          font-weight: 500;
+          color: #ff3b3b;
+        }
+
+        .rb-tagline i {
+          width: 4px;
+          height: 4px;
+          border-radius: 50%;
+          background: #ff3b3b;
+          box-shadow: 0 0 8px #ff3b3b;
+        }
+
+        .rb-buttons {
           display: flex;
           flex-wrap: wrap;
           gap: 14px;
+          margin-top: 34px;
         }
 
-        .hero-cta {
+        .rb-btn {
           display: inline-flex;
           align-items: center;
-          justify-content: center;
-          gap: 11px;
-          padding: 16px 23px;
-          border-radius: 9px;
-          font-size: 12px;
-          font-weight: 850;
+          gap: 10px;
+          padding: 14px 24px;
+          border-radius: 999px;
+          font-size: 13px;
+          font-weight: 700;
           text-decoration: none;
-          transition: .3s ease;
+          color: #fff;
+          transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
         }
 
-        .hero-cta-primary {
-          color: white;
-          background: linear-gradient(120deg, #f0441d, #ff793c);
-          box-shadow: 0 8px 35px rgba(255,65,25,.2);
+        .rb-btn-primary {
+          background: linear-gradient(180deg, #ff3a1c, #c4160a);
+          border: 1px solid rgba(255, 120, 90, .55);
+          box-shadow: 0 0 30px rgba(255, 40, 20, .4), inset 0 1px 0 rgba(255,255,255,.25);
         }
 
-        .hero-cta-primary:hover {
-          transform: translateY(-4px);
-          box-shadow: 0 12px 40px rgba(255,65,25,.4);
+        .rb-btn-primary:hover {
+          transform: translateY(-3px);
+          box-shadow: 0 0 45px rgba(255, 40, 20, .65), inset 0 1px 0 rgba(255,255,255,.25);
         }
 
-        .hero-cta-secondary {
-          color: white;
-          border: 1px solid rgba(255,255,255,.2);
-          background: rgba(255,255,255,.035);
+        .rb-btn-ghost {
+          background: rgba(255, 255, 255, .04);
+          border: 1px solid rgba(255, 70, 50, .5);
+          backdrop-filter: blur(8px);
         }
 
-        .hero-cta-secondary:hover {
-          border-color: #ff572b;
-          color: #ff9975;
-          transform: translateY(-4px);
+        .rb-btn-ghost:hover {
+          transform: translateY(-3px);
+          border-color: #ff4a2e;
+          box-shadow: 0 0 28px rgba(255, 40, 20, .3);
         }
 
-        .hero-visual {
-          min-height: 510px;
+        /* ---------- Socials ---------- */
+
+        .rb-socials {
+          position: absolute;
+          right: 2.2%;
+          top: 50%;
+          transform: translateY(-50%);
+          z-index: 6;
           display: flex;
-          align-items: center;
-          justify-content: center;
-          position: relative;
-        }
-
-        .hero-orbit {
-          position: absolute;
-          width: min(430px, 95%);
-          aspect-ratio: 1;
-          border: 1px solid rgba(255,100,55,.22);
-          border-radius: 50%;
-          box-shadow:
-            0 0 60px rgba(255,65,25,.08),
-            inset 0 0 60px rgba(255,65,25,.05);
-        }
-
-        .hero-orbit::before,
-        .hero-orbit::after {
-          content: "";
-          position: absolute;
-          inset: 25px;
-          border: 1px dashed rgba(255,120,75,.2);
-          border-radius: 50%;
-        }
-
-        .hero-orbit::after {
-          inset: 55px;
-          border-style: solid;
-          opacity: .45;
-        }
-
-        .hero-portrait-frame {
-          position: relative;
-          width: min(330px, 76%);
-          aspect-ratio: .78;
-          border-radius: 170px 170px 18px 18px;
-          border: 1px solid rgba(255,120,75,.45);
-          overflow: hidden;
-          background:
-            radial-gradient(ellipse at 50% 35%, rgba(255,100,45,.35), transparent 48%),
-            linear-gradient(145deg, #28120e, #100b0a 65%, #291009);
-          box-shadow:
-            0 0 70px rgba(255,65,25,.16),
-            0 30px 100px rgba(0,0,0,.6);
-        }
-
-        .hero-portrait-placeholder {
-          position: absolute;
-          inset: 0;
-          display: flex;
-          align-items: center;
-          justify-content: center;
           flex-direction: column;
-          gap: 12px;
-          text-align: center;
-          background:
-            radial-gradient(ellipse at 50% 45%, rgba(255,100,45,.15), transparent 65%);
+          gap: 14px;
         }
 
-        .hero-monogram {
-          font-size: clamp(130px, 20vw, 205px);
-          font-weight: 950;
-          line-height: 1;
-          letter-spacing: -15px;
-          color: rgba(255,105,55,.3);
-          text-shadow: 0 0 55px rgba(255,65,25,.28);
+        .rb-social {
+          width: 42px;
+          height: 42px;
+          display: grid;
+          place-items: center;
+          border-radius: 50%;
+          color: #fff;
+          background: rgba(10, 4, 4, .78);
+          border: 1px solid rgba(255, 70, 50, .45);
+          box-shadow: 0 0 16px rgba(255, 30, 20, .22);
+          backdrop-filter: blur(8px);
+          transition: transform .25s ease, background .25s ease, box-shadow .25s ease;
         }
 
-        .hero-photo-label {
-          color: #e18c6d;
-          font-size: 9px;
-          letter-spacing: 3px;
-          font-weight: 800;
+        .rb-social:hover {
+          transform: scale(1.12);
+          background: #d8190c;
+          box-shadow: 0 0 26px rgba(255, 40, 20, .6);
         }
 
-        .hero-visual-caption {
+        /* ---------- Bottom ---------- */
+
+        .rb-scroll {
           position: absolute;
-          bottom: 28px;
-          left: 50%;
-          transform: translateX(-50%);
-          white-space: nowrap;
-          color: #aaa;
-          font-size: 9px;
-          letter-spacing: 2.5px;
-        }
-
-        .hero-floating-tag {
-          position: absolute;
+          left: 3%;
+          bottom: 22px;
+          z-index: 6;
           display: flex;
+          flex-direction: column;
           align-items: center;
-          gap: 9px;
-          padding: 13px 16px;
-          border-radius: 10px;
-          border: 1px solid rgba(255,110,65,.25);
-          background: rgba(17,13,12,.86);
-          backdrop-filter: blur(15px);
-          color: #eee;
+          gap: 6px;
+          color: #cfcfcf;
           font-size: 10px;
-          font-weight: 750;
-          letter-spacing: 1px;
-          box-shadow: 0 10px 35px rgba(0,0,0,.4);
+          text-decoration: none;
         }
 
-        .hero-floating-tag svg {
-          color: #ff713d;
+        .rb-scroll-circle {
+          width: 36px;
+          height: 36px;
+          display: grid;
+          place-items: center;
+          border-radius: 50%;
+          border: 1px solid rgba(255, 255, 255, .3);
         }
 
-        .hero-tag-one {
-          top: 19%;
+        .rb-line {
+          position: absolute;
           left: 0;
-        }
-
-        .hero-tag-two {
           right: 0;
-          bottom: 19%;
+          bottom: 0;
+          height: 2px;
+          z-index: 6;
+          background: linear-gradient(90deg, transparent, #ff2a1a 25%, #ff5a3a 50%, #ff2a1a 75%, transparent);
+          box-shadow: 0 0 24px 4px rgba(255, 40, 20, .7);
         }
 
-        .hero-bottom {
-          position: absolute;
-          bottom: 30px;
-          left: 8%;
-          display: flex;
-          align-items: center;
-          gap: 12px;
-          color: #777;
-          font-size: 9px;
-          font-weight: 750;
-          letter-spacing: 3px;
+        /* ---------- Tablet ---------- */
+
+        @media (max-width: 1100px) {
+          .rb-copy { width: min(480px, 48%); }
+          .rb-portrait { left: 60%; height: 82%; }
+          .rb-robot { height: 70%; right: -4%; }
         }
 
-        .hero-bottom-line {
-          width: 35px;
-          height: 1px;
-          background: #ff572b;
-        }
+        /* ---------- Mobile ---------- */
 
-        .hero-corner {
-          position: absolute;
-          right: 8%;
-          bottom: 30px;
-          color: rgba(255,255,255,.35);
-          font-size: 10px;
-          letter-spacing: 2px;
-        }
-
-        @media(max-width: 850px) {
-          .cinematic-hero {
-            padding: 120px 6% 90px;
+        @media (max-width: 800px) {
+          .rb-hero {
+            display: flex;
+            flex-direction: column;
           }
 
-          .hero-layout {
-            grid-template-columns: 1fr;
-            gap: 15px;
+          .rb-stage {
+            position: relative;
+            inset: auto;
+            height: 56svh;
+            min-height: 380px;
+            flex-shrink: 0;
+            margin-top: 70px;
           }
 
-          .hero-copy {
-            text-align: center;
+          .rb-giant {
+            top: 8%;
+            font-size: clamp(60px, 19vw, 130px);
           }
 
-          .hero-eyebrow {
-            margin-bottom: 23px;
+          .rb-portrait {
+            left: 38%;
+            height: 96%;
           }
 
-          .hero-heading {
-            font-size: clamp(58px, 12vw, 90px);
-            letter-spacing: -4px;
+          .rb-robot {
+            right: -8%;
+            height: 78%;
           }
 
-          .hero-description {
-            margin: 24px auto;
+          .rb-content {
+            min-height: 0;
+            padding: 0 7% 90px;
+            margin-top: -30px;
           }
 
-          .hero-buttons {
-            justify-content: center;
+          .rb-copy {
+            width: 100%;
+            text-align: left;
           }
 
-          .hero-visual {
-            min-height: 390px;
+          .rb-name {
+            font-size: clamp(48px, 15vw, 84px);
           }
 
-          .hero-orbit {
-            width: 340px;
+          .rb-socials {
+            top: 40%;
+            right: 10px;
+            gap: 10px;
           }
 
-          .hero-portrait-frame {
-            width: 245px;
+          .rb-social {
+            width: 36px;
+            height: 36px;
           }
 
-          .hero-monogram {
-            font-size: 150px;
-          }
-
-          .hero-tag-one {
-            left: 4%;
-          }
-
-          .hero-tag-two {
-            right: 4%;
-          }
-        }
-
-        @media(max-width: 480px) {
-          .cinematic-hero {
-            padding: 115px 6% 75px;
-          }
-
-          .hero-heading {
-            font-size: clamp(48px, 14vw, 68px);
-            letter-spacing: -3px;
-          }
-
-          .hero-eyebrow {
-            font-size: 8px;
-            letter-spacing: 1.7px;
-            padding: 9px 12px;
-          }
-
-          .hero-description {
-            font-size: 13px;
-            line-height: 1.8;
-          }
-
-          .hero-cta {
-            padding: 14px 17px;
-            font-size: 11px;
-          }
-
-          .hero-visual {
-            min-height: 330px;
-          }
-
-          .hero-orbit {
-            width: 290px;
-          }
-
-          .hero-portrait-frame {
-            width: 205px;
-          }
-
-          .hero-monogram {
-            font-size: 125px;
-          }
-
-          .hero-floating-tag {
-            padding: 10px 11px;
-            font-size: 8px;
-          }
-
-          .hero-tag-one {
-            top: 16%;
-            left: 0;
-          }
-
-          .hero-tag-two {
-            right: 0;
-            bottom: 14%;
-          }
-
-          .hero-bottom {
-            left: 6%;
-            bottom: 22px;
-            font-size: 8px;
-            letter-spacing: 2px;
-          }
-
-          .hero-corner {
+          .rb-scroll {
             display: none;
           }
+
+          .rb-vignette {
+            background:
+              linear-gradient(to top, rgba(0,0,0,.95) 0%, transparent 45%),
+              radial-gradient(ellipse at center, transparent 55%, rgba(0,0,0,.6) 100%);
+          }
         }
 
-        @media(prefers-reduced-motion: reduce) {
-          .hero-cta {
+        @media (prefers-reduced-motion: reduce) {
+          .rb-atmosphere,
+          .rb-giant {
+            animation: none;
+          }
+          .rb-btn,
+          .rb-social {
             transition: none;
           }
         }
       `}</style>
 
-      <div className="hero-noise" />
-      <div className="hero-glow" />
+      <div className="rb-atmosphere" />
+      <div className="rb-vignette" />
 
-      <div className="hero-layout">
-        <motion.div
-          className="hero-copy"
-          initial={{ opacity: 0, y: 35 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, ease: "easeOut" }}
-        >
-          <div className="hero-eyebrow">
-            <span className="hero-live-dot" />
-            AI & ROBOTICS STUDENT
-          </div>
+      {/* Giant word, robot and portrait */}
+      <div className="rb-stage" aria-hidden="true">
+        <div className="rb-giant">ROBOTICS</div>
 
-          <h1 className="hero-heading">
-            BUILDING
-            <span>THE FUTURE.</span>
-          </h1>
-
-          <p className="hero-description">
-            Hey, I'm <strong>Subhadip</strong> — a first-year
-            AI & Robotics student exploring intelligent
-            systems, creative technology and the future
-            of innovation.
-          </p>
-
-          <div className="hero-buttons">
-            <a
-              href="#projects"
-              className="hero-cta hero-cta-primary"
-            >
-              Explore My Work
-              <ArrowUpRight size={17} />
-            </a>
-
-            <a
-              href="#contact"
-              className="hero-cta hero-cta-secondary"
-            >
-              Get In Touch
-            </a>
-          </div>
-        </motion.div>
-
-        <div className="hero-visual">
-          <motion.div
-            className="hero-orbit"
-            animate={{ rotate: 360 }}
-            transition={{
-              duration: 55,
-              repeat: Infinity,
-              ease: "linear",
-            }}
+        <div className="rb-robot">
+          <motion.img
+            src={ROBOT_SRC}
+            alt=""
+            onError={hideBroken}
+            draggable={false}
+            initial={{ opacity: 0, y: "-45vh" }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1.3, delay: T_ROBOT, ease }}
           />
+        </div>
+
+        <div className="rb-portrait">
+          <motion.img
+            src={PORTRAIT_SRC}
+            alt=""
+            onError={hideBroken}
+            draggable={false}
+            initial={{ opacity: 0, y: "35vh" }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1.3, delay: T_PORTRAIT, ease }}
+          />
+        </div>
+      </div>
+
+      {/* Left text */}
+      <div className="rb-content">
+        <div className="rb-copy">
+          <motion.div
+            initial={{ opacity: 0, filter: "blur(18px)", scale: 0.93 }}
+            animate={{ opacity: 1, filter: "blur(0px)", scale: 1 }}
+            transition={{ duration: 1.1, delay: T_NAME, ease }}
+            style={{ transformOrigin: "left center" }}
+          >
+            <span className="rb-hello">Hello, I'm</span>
+            <h1 className="rb-name">
+              <span>Subhadip</span>
+              <span>Bera</span>
+            </h1>
+          </motion.div>
 
           <motion.div
-            className="hero-portrait-frame"
-            initial={{ opacity: 0, scale: 0.85, y: 25 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            transition={{ duration: 1.2, delay: 0.25 }}
+            className="rb-info"
+            initial={{ opacity: 0, y: 18 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: T_REST, ease }}
           >
-            <div className="hero-portrait-placeholder">
-              <span className="hero-monogram">S</span>
-              <span className="hero-photo-label">
-                PORTRAIT PLACEHOLDER
-              </span>
+            <p className="rb-year">1st Year B.Tech Student</p>
+            <p className="rb-role">AI &amp; Robotics</p>
+            <p className="rb-uni">The Neotia University</p>
+
+            <div className="rb-tagline">
+              <b>Innovate</b>
+              <i />
+              <span>Build</span>
+              <i />
+              <span>Automate</span>
             </div>
           </motion.div>
 
           <motion.div
-            className="hero-floating-tag hero-tag-one"
-            animate={{ y: [0, -9, 0] }}
-            transition={{ duration: 4, repeat: Infinity }}
+            className="rb-buttons"
+            initial={{ opacity: 0, y: 18 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: T_REST + 0.2, ease }}
           >
-            <Sparkles size={16} />
-            CREATIVE THINKER
+            <a href="#projects" className="rb-btn rb-btn-primary">
+              Explore My Work
+              <ArrowRight size={16} />
+            </a>
+            <a href="#contact" className="rb-btn rb-btn-ghost">
+              Contact Me
+            </a>
           </motion.div>
-
-          <motion.div
-            className="hero-floating-tag hero-tag-two"
-            animate={{ y: [0, 9, 0] }}
-            transition={{ duration: 5, repeat: Infinity }}
-          >
-            <Orbit size={16} />
-            FUTURE ENGINEER
-          </motion.div>
-
-          <div className="hero-visual-caption">
-            IDEAS INTO REALITY
-          </div>
         </div>
       </div>
 
-      <div className="hero-bottom">
-        <span className="hero-bottom-line" />
-        SCROLL TO EXPLORE
-        <ArrowDown size={13} />
+      {/* Social icons */}
+      <div className="rb-socials">
+        {socials.map((item, i) => {
+          const Icon = item.icon;
+          return (
+            <motion.a
+              key={item.label}
+              href={item.href}
+              target="_blank"
+              rel="noreferrer"
+              aria-label={item.label}
+              className="rb-social"
+              initial={{ opacity: 0, x: 16 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6, delay: T_REST + 0.3 + i * 0.12, ease }}
+            >
+              <Icon size={17} />
+            </motion.a>
+          );
+        })}
       </div>
 
-      <div className="hero-corner">
-        PORTFOLIO / 2026
-      </div>
+      {/* Scroll indicator and glowing line */}
+      <motion.a
+        href="#about"
+        className="rb-scroll"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.8, delay: T_REST + 0.5 }}
+      >
+        <span className="rb-scroll-circle">
+          <ChevronsDown size={16} />
+        </span>
+        Scroll Down
+      </motion.a>
+
+      <div className="rb-line" />
     </section>
   );
 }
