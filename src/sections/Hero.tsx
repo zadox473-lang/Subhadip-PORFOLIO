@@ -1,631 +1,632 @@
 import { motion } from "framer-motion";
-import { ArrowRight, ChevronsDown, MessageCircle } from "lucide-react";
-import type { SVGProps, SyntheticEvent } from "react";
-
-/* ---------- Brand icons (lucide-react no longer ships these) ---------- */
-
-type IconProps = SVGProps<SVGSVGElement> & { size?: number };
-
-const iconBase = (size = 24) => ({
-  width: size,
-  height: size,
-  viewBox: "0 0 24 24",
-  fill: "none",
-  stroke: "currentColor",
-  strokeWidth: 2,
-  strokeLinecap: "round" as const,
-  strokeLinejoin: "round" as const,
-});
-
-const Github = ({ size, ...p }: IconProps) => (
-  <svg {...iconBase(size)} {...p}>
-    <path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4" />
-    <path d="M9 18c-4.51 2-5-2-7-2" />
-  </svg>
-);
-
-const Linkedin = ({ size, ...p }: IconProps) => (
-  <svg {...iconBase(size)} {...p}>
-    <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
-    <rect width="4" height="12" x="2" y="9" />
-    <circle cx="4" cy="4" r="2" />
-  </svg>
-);
-
-const Instagram = ({ size, ...p }: IconProps) => (
-  <svg {...iconBase(size)} {...p}>
-    <rect width="20" height="20" x="2" y="2" rx="5" ry="5" />
-    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
-    <line x1="17.5" x2="17.51" y1="6.5" y2="6.5" />
-  </svg>
-);
-
-/* ---------- Content (placeholders: update later) ---------- */
-
-const socials = [
-  { label: "GitHub", href: "https://github.com/yourusername", icon: Github },
-  {
-    label: "LinkedIn",
-    href: "https://www.linkedin.com/in/yourusername",
-    icon: Linkedin,
-  },
-  {
-    label: "Instagram",
-    href: "https://www.instagram.com/yourusername",
-    icon: Instagram,
-  },
-  { label: "WhatsApp", href: "https://wa.me/91XXXXXXXXXX", icon: MessageCircle },
-];
-
-/* ---------- Image URLs (works on GitHub Pages base path) ---------- */
+import {
+  ArrowDown,
+  ArrowUpRight,
+  Github,
+  Linkedin,
+  Instagram,
+  MessageCircle,
+} from "lucide-react";
 
 const BASE = import.meta.env.BASE_URL;
-const PORTRAIT_SRC = `${BASE}images/profile/subhadip.png`;
-const ROBOT_SRC = `${BASE}images/robot/robot.png`;
 
-/* ---------- Animation timing (seconds) ----------
-   The app shows a loader for ~1.8s, so the sequence starts after it. */
-
-const START = 1.9;
-const T_NAME = START; // 1. name
-const T_ROBOT = START + 1.1; // 2. robot from top
-const T_PORTRAIT = START + 2.1; // 3. portrait from bottom
-const T_REST = START + 3.3; // 4. text, buttons, socials
+const PORTRAIT = `${BASE}images/profile/subhadip.png`;
+const ROBOT = `${BASE}images/robot/robot.png`;
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
-const hideBroken = (e: SyntheticEvent<HTMLImageElement>) => {
-  e.currentTarget.style.visibility = "hidden";
-};
+const socials = [
+  { label: "GitHub", href: "https://github.com/yourusername", icon: Github },
+  { label: "LinkedIn", href: "https://linkedin.com/in/yourusername", icon: Linkedin },
+  { label: "Instagram", href: "https://instagram.com/yourusername", icon: Instagram },
+  { label: "WhatsApp", href: "https://wa.me/91XXXXXXXXXX", icon: MessageCircle },
+];
 
 export default function Hero() {
   return (
-    <section className="rb-hero">
+    <section className="hero-main">
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Mrs+Saint+Delafield&display=swap');
-
-        .rb-hero {
+        .hero-main {
           position: relative;
-          min-height: 100vh;
-          min-height: 100svh;
+          width: 100%;
+          min-height: 720px;
+          height: calc(100svh - 80px);
+          max-height: 950px;
           overflow: hidden;
           isolation: isolate;
-          color: #fff;
-          background: #040101;
+          background: #030303;
+          color: white;
         }
 
-        .rb-hero *,
-        .rb-hero *::before,
-        .rb-hero *::after {
+        .hero-main * {
           box-sizing: border-box;
         }
 
-        /* ---------- Atmosphere ---------- */
-
-        .rb-atmosphere {
+        .hero-bg {
           position: absolute;
           inset: 0;
-          z-index: 0;
-          pointer-events: none;
+          z-index: -2;
           background:
-            radial-gradient(ellipse at 72% 50%, rgba(255, 20, 20, 0.34), transparent 52%),
-            radial-gradient(ellipse at 10% 95%, rgba(170, 10, 10, 0.3), transparent 45%),
-            radial-gradient(ellipse at 50% 0%, rgba(120, 5, 5, 0.28), transparent 50%);
-          animation: rb-pulse 4.8s ease-in-out infinite;
+            radial-gradient(ellipse at 70% 50%, rgba(255, 0, 0, .30), transparent 48%),
+            radial-gradient(ellipse at 50% 100%, rgba(180, 0, 0, .22), transparent 50%),
+            #030303;
+          animation: atmosphere 5s ease-in-out infinite;
         }
 
-        .rb-vignette {
+        .hero-bg::after {
+          content: "";
           position: absolute;
           inset: 0;
-          z-index: 1;
-          pointer-events: none;
           background:
-            linear-gradient(to right, rgba(0,0,0,.85) 0%, rgba(0,0,0,.35) 32%, transparent 55%),
-            linear-gradient(to top, rgba(0,0,0,.9) 0%, transparent 28%),
-            radial-gradient(ellipse at center, transparent 55%, rgba(0,0,0,.65) 100%);
+            linear-gradient(90deg, #030303 0%, rgba(0,0,0,.65) 30%, transparent 65%),
+            linear-gradient(0deg, rgba(0,0,0,.55), transparent 35%);
         }
 
-        @keyframes rb-pulse {
-          0%, 100% { opacity: .55; }
+        @keyframes atmosphere {
+          0%, 100% { opacity: .7; }
           50% { opacity: 1; }
         }
 
-        @keyframes rb-breathe {
-          0%, 100% {
-            opacity: .5;
-            text-shadow: 0 0 40px rgba(255, 30, 30, .35), 0 0 90px rgba(255, 0, 0, .18);
-          }
-          50% {
-            opacity: .68;
-            text-shadow: 0 0 60px rgba(255, 30, 30, .55), 0 0 130px rgba(255, 0, 0, .3);
-          }
-        }
-
-        /* ---------- Stage: giant word + portrait + robot ---------- */
-
-        .rb-stage {
+        .hero-word {
           position: absolute;
-          inset: 0;
-          z-index: 2;
-          pointer-events: none;
-        }
-
-        .rb-giant {
-          position: absolute;
-          top: 13%;
+          z-index: -1;
+          top: 12%;
           left: 50%;
           transform: translateX(-50%);
           width: 100%;
           text-align: center;
           white-space: nowrap;
-          font-family: 'Space Grotesk', 'DM Sans', sans-serif;
-          font-weight: 900;
-          font-size: clamp(90px, 21vw, 340px);
-          line-height: 1;
-          letter-spacing: -.02em;
-          text-transform: uppercase;
-          color: #c40a0a;
-          user-select: none;
-          animation: rb-breathe 4.8s ease-in-out infinite;
+          font-family: 'Arial Black', sans-serif;
+          font-size: clamp(100px, 19vw, 280px);
+          font-weight: 1000;
+          line-height: .9;
+          letter-spacing: -9px;
+          color: rgba(220, 0, 0, .48);
+          text-shadow: 0 0 50px rgba(255,0,0,.28);
+          animation: wordGlow 5s ease-in-out infinite;
+          pointer-events: none;
         }
 
-        .rb-portrait {
-          position: absolute;
-          bottom: 0;
-          left: 55%;
-          transform: translateX(-50%);
-          height: 92%;
-          z-index: 3;
+        @keyframes wordGlow {
+          0%, 100% {
+            opacity: .65;
+            text-shadow: 0 0 35px rgba(255,0,0,.2);
+          }
+          50% {
+            opacity: .9;
+            text-shadow: 0 0 65px rgba(255,0,0,.45);
+          }
         }
 
-        .rb-robot {
+        .hero-red-light {
           position: absolute;
-          bottom: 0;
+          z-index: -1;
           right: 0;
-          height: 86%;
-          z-index: 2;
-        }
-
-        .rb-portrait img,
-        .rb-robot img {
-          display: block;
+          top: 0;
+          width: 65%;
           height: 100%;
-          width: auto;
-          max-width: none;
-          object-fit: contain;
-          object-position: bottom;
-          user-select: none;
-          -webkit-user-drag: none;
+          background: radial-gradient(ellipse, rgba(255,0,0,.16), transparent 65%);
+          pointer-events: none;
         }
 
-        .rb-portrait img {
-          filter: drop-shadow(0 0 40px rgba(255, 30, 30, .28));
-          -webkit-mask-image: linear-gradient(to bottom, #000 82%, transparent 100%);
-          mask-image: linear-gradient(to bottom, #000 82%, transparent 100%);
-        }
-
-        .rb-robot img {
-          filter: drop-shadow(0 0 50px rgba(255, 20, 20, .4));
-        }
-
-        /* ---------- Copy ---------- */
-
-        .rb-content {
+        .hero-content {
           position: relative;
           z-index: 5;
-          min-height: 100vh;
-          min-height: 100svh;
           display: flex;
           align-items: center;
-          padding: 110px 7% 90px;
+          width: 100%;
+          height: 100%;
+          padding: 70px 5% 55px;
         }
 
-        .rb-copy {
-          width: min(520px, 42%);
+        .hero-copy {
+          position: relative;
+          z-index: 6;
+          width: 37%;
+          max-width: 500px;
+          flex-shrink: 0;
         }
 
-        .rb-hello {
+        .hero-hello {
           display: block;
-          font-family: 'Mrs Saint Delafield', 'Brush Script MT', cursive;
-          font-size: clamp(38px, 4vw, 62px);
-          line-height: 1;
-          color: #f1f1f1;
-          margin-bottom: 6px;
+          margin-bottom: 4px;
+          font-family: cursive;
+          font-style: italic;
+          font-size: clamp(30px, 3vw, 48px);
+          color: white;
         }
 
-        .rb-name {
+        .hero-name {
           margin: 0;
-          font-family: 'Space Grotesk', 'DM Sans', sans-serif;
+          font-size: clamp(48px, 6vw, 86px);
+          font-weight: 950;
+          line-height: .85;
+          letter-spacing: -3px;
+          text-transform: uppercase;
+          color: #fff;
+          text-shadow: 0 5px 25px rgba(0,0,0,.7);
+        }
+
+        .hero-name span {
+          display: block;
+        }
+
+        .hero-year {
+          margin: 24px 0 4px;
+          color: #eee;
+          font-size: clamp(13px, 1.3vw, 17px);
+        }
+
+        .hero-role {
+          margin: 0;
+          color: #ff244b;
+          font-size: clamp(23px, 2.4vw, 34px);
           font-weight: 900;
-          font-size: clamp(54px, 7vw, 108px);
-          line-height: .9;
-          letter-spacing: -.02em;
           text-transform: uppercase;
-          background: linear-gradient(180deg, #ffffff 15%, #b5b5b5 55%, #7d7d7d 100%);
-          -webkit-background-clip: text;
-          background-clip: text;
-          -webkit-text-fill-color: transparent;
-          color: transparent;
-          filter: drop-shadow(0 6px 18px rgba(0,0,0,.6));
+          text-shadow: 0 0 25px rgba(255,0,40,.4);
         }
 
-        .rb-name span {
-          display: block;
+        .hero-university {
+          margin: 5px 0 0;
+          font-size: 14px;
+          color: #ddd;
         }
 
-        .rb-info {
-          margin-top: 26px;
-        }
-
-        .rb-year {
-          margin: 0;
-          font-size: clamp(15px, 1.5vw, 21px);
-          font-weight: 500;
-          color: #ececec;
-        }
-
-        .rb-role {
-          margin: 2px 0 6px;
-          font-family: 'Space Grotesk', 'DM Sans', sans-serif;
-          font-size: clamp(24px, 2.8vw, 40px);
-          font-weight: 800;
-          letter-spacing: .01em;
-          text-transform: uppercase;
-          color: #ff1f5a;
-          text-shadow: 0 0 28px rgba(255, 31, 90, .35);
-        }
-
-        .rb-uni {
-          margin: 0;
-          font-size: clamp(13px, 1.2vw, 16px);
-          color: #d8d8d8;
-        }
-
-        .rb-tagline {
+        .hero-tagline {
           display: flex;
-          flex-wrap: wrap;
           align-items: center;
           gap: 12px;
-          margin-top: 18px;
-          font-size: 13px;
-          color: #cfcfcf;
+          margin-top: 15px;
+          font-size: 12px;
+          color: #ddd;
         }
 
-        .rb-tagline b {
-          font-weight: 500;
-          color: #ff3b3b;
+        .hero-tagline b {
+          color: #ff3030;
+          font-weight: 600;
         }
 
-        .rb-tagline i {
+        .hero-dot {
           width: 4px;
           height: 4px;
           border-radius: 50%;
-          background: #ff3b3b;
-          box-shadow: 0 0 8px #ff3b3b;
+          background: #ff2525;
+          box-shadow: 0 0 10px red;
         }
 
-        .rb-buttons {
+        .hero-actions {
           display: flex;
           flex-wrap: wrap;
-          gap: 14px;
-          margin-top: 34px;
+          gap: 12px;
+          margin-top: 28px;
         }
 
-        .rb-btn {
+        .hero-button {
           display: inline-flex;
           align-items: center;
+          justify-content: center;
           gap: 10px;
-          padding: 14px 24px;
-          border-radius: 999px;
-          font-size: 13px;
+          padding: 13px 21px;
+          border-radius: 30px;
+          color: white;
+          font-size: 12px;
           font-weight: 700;
           text-decoration: none;
-          color: #fff;
-          transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+          transition: .3s ease;
         }
 
-        .rb-btn-primary {
-          background: linear-gradient(180deg, #ff3a1c, #c4160a);
-          border: 1px solid rgba(255, 120, 90, .55);
-          box-shadow: 0 0 30px rgba(255, 40, 20, .4), inset 0 1px 0 rgba(255,255,255,.25);
+        .hero-button-primary {
+          background: linear-gradient(135deg, #ff351f, #d50000);
+          border: 1px solid #ff5948;
+          box-shadow: 0 0 25px rgba(255,0,0,.4);
         }
 
-        .rb-btn-primary:hover {
+        .hero-button-primary:hover {
           transform: translateY(-3px);
-          box-shadow: 0 0 45px rgba(255, 40, 20, .65), inset 0 1px 0 rgba(255,255,255,.25);
+          box-shadow: 0 0 40px rgba(255,0,0,.7);
         }
 
-        .rb-btn-ghost {
-          background: rgba(255, 255, 255, .04);
-          border: 1px solid rgba(255, 70, 50, .5);
-          backdrop-filter: blur(8px);
+        .hero-button-secondary {
+          background: rgba(10,10,10,.6);
+          border: 1px solid rgba(255,70,70,.55);
         }
 
-        .rb-btn-ghost:hover {
-          transform: translateY(-3px);
-          border-color: #ff4a2e;
-          box-shadow: 0 0 28px rgba(255, 40, 20, .3);
+        .hero-button-secondary:hover {
+          background: #b90000;
         }
 
-        /* ---------- Socials ---------- */
+        /* Portrait */
 
-        .rb-socials {
+        .hero-portrait {
           position: absolute;
-          right: 2.2%;
+          z-index: 3;
+          left: 39%;
+          bottom: 0;
+          height: 91%;
+          width: 36%;
+          display: flex;
+          justify-content: center;
+          align-items: flex-end;
+          pointer-events: none;
+        }
+
+        .hero-portrait img {
+          display: block;
+          height: 100%;
+          width: 100%;
+          object-fit: contain;
+          object-position: center bottom;
+          filter: drop-shadow(0 0 28px rgba(255,0,0,.22));
+        }
+
+        /* Robot */
+
+        .hero-robot {
+          position: absolute;
+          z-index: 2;
+          right: 1%;
+          bottom: 0;
+          height: 87%;
+          width: 34%;
+          display: flex;
+          justify-content: center;
+          align-items: flex-end;
+          pointer-events: none;
+        }
+
+        .hero-robot img {
+          display: block;
+          width: 100%;
+          height: 100%;
+          object-fit: contain;
+          object-position: center bottom;
+          filter: drop-shadow(0 0 38px rgba(255,0,0,.55));
+        }
+
+        /* Social icons */
+
+        .hero-socials {
+          position: absolute;
+          z-index: 8;
+          right: 2.5%;
           top: 50%;
           transform: translateY(-50%);
-          z-index: 6;
           display: flex;
           flex-direction: column;
-          gap: 14px;
+          gap: 13px;
         }
 
-        .rb-social {
-          width: 42px;
-          height: 42px;
+        .hero-social {
+          width: 39px;
+          height: 39px;
           display: grid;
           place-items: center;
+          color: white;
           border-radius: 50%;
-          color: #fff;
-          background: rgba(10, 4, 4, .78);
-          border: 1px solid rgba(255, 70, 50, .45);
-          box-shadow: 0 0 16px rgba(255, 30, 20, .22);
-          backdrop-filter: blur(8px);
-          transition: transform .25s ease, background .25s ease, box-shadow .25s ease;
+          border: 1px solid rgba(255,60,60,.5);
+          background: rgba(0,0,0,.65);
+          box-shadow: 0 0 15px rgba(255,0,0,.2);
+          transition: .3s;
         }
 
-        .rb-social:hover {
-          transform: scale(1.12);
-          background: #d8190c;
-          box-shadow: 0 0 26px rgba(255, 40, 20, .6);
+        .hero-social:hover {
+          background: #c90000;
+          transform: scale(1.1);
+          box-shadow: 0 0 25px red;
         }
 
-        /* ---------- Bottom ---------- */
-
-        .rb-scroll {
+        .hero-scroll {
           position: absolute;
-          left: 3%;
+          z-index: 8;
           bottom: 22px;
-          z-index: 6;
+          left: 4%;
           display: flex;
           flex-direction: column;
           align-items: center;
-          gap: 6px;
-          color: #cfcfcf;
-          font-size: 10px;
+          gap: 5px;
+          color: #ddd;
           text-decoration: none;
+          font-size: 10px;
         }
 
-        .rb-scroll-circle {
-          width: 36px;
-          height: 36px;
+        .hero-scroll-icon {
+          width: 34px;
+          height: 34px;
           display: grid;
           place-items: center;
+          border: 1px solid rgba(255,255,255,.4);
           border-radius: 50%;
-          border: 1px solid rgba(255, 255, 255, .3);
         }
 
-        .rb-line {
+        .hero-bottom-line {
           position: absolute;
-          left: 0;
-          right: 0;
+          z-index: 10;
           bottom: 0;
-          height: 2px;
-          z-index: 6;
-          background: linear-gradient(90deg, transparent, #ff2a1a 25%, #ff5a3a 50%, #ff2a1a 75%, transparent);
-          box-shadow: 0 0 24px 4px rgba(255, 40, 20, .7);
+          left: 0;
+          width: 100%;
+          height: 3px;
+          background: linear-gradient(90deg, transparent, #ff1717, #ff6969, #ff1717, transparent);
+          box-shadow: 0 0 25px 4px rgba(255,0,0,.7);
         }
 
-        /* ---------- Tablet ---------- */
+        /* Tablet */
 
-        @media (max-width: 1100px) {
-          .rb-copy { width: min(480px, 48%); }
-          .rb-portrait { left: 60%; height: 82%; }
-          .rb-robot { height: 70%; right: -4%; }
+        @media (max-width: 1000px) and (min-width: 701px) {
+          .hero-copy {
+            width: 40%;
+          }
+
+          .hero-portrait {
+            left: 39%;
+            width: 38%;
+            height: 78%;
+          }
+
+          .hero-robot {
+            right: 0;
+            width: 35%;
+            height: 73%;
+          }
+
+          .hero-name {
+            font-size: clamp(46px, 6vw, 66px);
+          }
         }
 
-        /* ---------- Mobile ---------- */
+        /* Mobile */
 
-        @media (max-width: 800px) {
-          .rb-hero {
+        @media (max-width: 700px) {
+          .hero-main {
+            height: auto;
+            min-height: 850px;
+            max-height: none;
             display: flex;
             flex-direction: column;
           }
 
-          .rb-stage {
-            position: relative;
-            inset: auto;
-            height: 56svh;
-            min-height: 380px;
-            flex-shrink: 0;
-            margin-top: 70px;
-          }
-
-          .rb-giant {
+          .hero-word {
             top: 8%;
-            font-size: clamp(60px, 19vw, 130px);
+            font-size: 20vw;
+            letter-spacing: -4px;
           }
 
-          .rb-portrait {
-            left: 38%;
-            height: 96%;
+          .hero-content {
+            display: block;
+            height: auto;
+            min-height: 850px;
+            padding: 0;
           }
 
-          .rb-robot {
-            right: -8%;
-            height: 78%;
+          .hero-portrait {
+            left: 17%;
+            bottom: 0;
+            height: 65%;
+            width: 66%;
+            z-index: 3;
           }
 
-          .rb-content {
-            min-height: 0;
-            padding: 0 7% 90px;
-            margin-top: -30px;
+          .hero-robot {
+            right: -5%;
+            bottom: 0;
+            height: 48%;
+            width: 48%;
+            z-index: 2;
           }
 
-          .rb-copy {
-            width: 100%;
-            text-align: left;
+          .hero-copy {
+            position: absolute;
+            left: 7%;
+            top: 36%;
+            width: 55%;
+            max-width: none;
+            z-index: 6;
           }
 
-          .rb-name {
-            font-size: clamp(48px, 15vw, 84px);
+          .hero-hello {
+            font-size: 29px;
           }
 
-          .rb-socials {
-            top: 40%;
-            right: 10px;
-            gap: 10px;
+          .hero-name {
+            font-size: clamp(43px, 12vw, 65px);
+            letter-spacing: -2px;
           }
 
-          .rb-social {
-            width: 36px;
-            height: 36px;
+          .hero-year {
+            margin-top: 17px;
+            font-size: 12px;
           }
 
-          .rb-scroll {
-            display: none;
+          .hero-role {
+            font-size: clamp(19px, 5.5vw, 26px);
           }
 
-          .rb-vignette {
+          .hero-university {
+            font-size: 11px;
+          }
+
+          .hero-tagline {
+            gap: 7px;
+            font-size: 10px;
+          }
+
+          .hero-actions {
+            gap: 8px;
+            margin-top: 18px;
+          }
+
+          .hero-button {
+            padding: 11px 13px;
+            font-size: 10px;
+          }
+
+          .hero-socials {
+            top: 47%;
+            right: 3%;
+            gap: 9px;
+          }
+
+          .hero-social {
+            width: 32px;
+            height: 32px;
+          }
+
+          .hero-scroll {
+            left: 5%;
+            bottom: 14px;
+            font-size: 9px;
+          }
+
+          .hero-bg {
             background:
-              linear-gradient(to top, rgba(0,0,0,.95) 0%, transparent 45%),
-              radial-gradient(ellipse at center, transparent 55%, rgba(0,0,0,.6) 100%);
+              radial-gradient(ellipse at 70% 70%, rgba(255,0,0,.28), transparent 55%),
+              #030303;
+          }
+        }
+
+        @media (max-width: 380px) {
+          .hero-main,
+          .hero-content {
+            min-height: 790px;
+          }
+
+          .hero-copy {
+            top: 34%;
+            width: 59%;
+          }
+
+          .hero-portrait {
+            height: 61%;
+            left: 16%;
+            width: 68%;
+          }
+
+          .hero-robot {
+            height: 44%;
+            width: 47%;
+          }
+
+          .hero-name {
+            font-size: 42px;
           }
         }
 
         @media (prefers-reduced-motion: reduce) {
-          .rb-atmosphere,
-          .rb-giant {
+          .hero-bg,
+          .hero-word {
             animation: none;
-          }
-          .rb-btn,
-          .rb-social {
-            transition: none;
           }
         }
       `}</style>
 
-      <div className="rb-atmosphere" />
-      <div className="rb-vignette" />
+      <div className="hero-bg" />
+      <div className="hero-red-light" />
 
-      {/* Giant word, robot and portrait */}
-      <div className="rb-stage" aria-hidden="true">
-        <div className="rb-giant">ROBOTICS</div>
+      <div className="hero-word">ROBOTICS</div>
 
-        <div className="rb-robot">
-          <motion.img
-            src={ROBOT_SRC}
-            alt=""
-            onError={hideBroken}
-            draggable={false}
-            initial={{ opacity: 0, y: "-45vh" }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1.3, delay: T_ROBOT, ease }}
-          />
-        </div>
-
-        <div className="rb-portrait">
-          <motion.img
-            src={PORTRAIT_SRC}
-            alt=""
-            onError={hideBroken}
-            draggable={false}
-            initial={{ opacity: 0, y: "35vh" }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1.3, delay: T_PORTRAIT, ease }}
-          />
-        </div>
+      {/* Robot enters first */}
+      <div className="hero-robot">
+        <motion.img
+          src={ROBOT}
+          alt="Robotics character"
+          draggable={false}
+          initial={{ opacity: 0, y: -180 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 2, delay: 1.7, ease }}
+        />
       </div>
 
-      {/* Left text */}
-      <div className="rb-content">
-        <div className="rb-copy">
+      {/* Portrait enters after robot */}
+      <div className="hero-portrait">
+        <motion.img
+          src={PORTRAIT}
+          alt="Subhadip Bera"
+          draggable={false}
+          initial={{ opacity: 0, y: 180 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 2, delay: 2.8, ease }}
+        />
+      </div>
+
+      {/* Left introduction */}
+      <div className="hero-content">
+        <div className="hero-copy">
           <motion.div
-            initial={{ opacity: 0, filter: "blur(18px)", scale: 0.93 }}
-            animate={{ opacity: 1, filter: "blur(0px)", scale: 1 }}
-            transition={{ duration: 1.1, delay: T_NAME, ease }}
-            style={{ transformOrigin: "left center" }}
+            initial={{ opacity: 0, y: 15, filter: "blur(15px)" }}
+            animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+            transition={{ duration: 1.3, delay: 0.5, ease }}
           >
-            <span className="rb-hello">Hello, I'm</span>
-            <h1 className="rb-name">
-              <span>Subhadip</span>
-              <span>Bera</span>
+            <span className="hero-hello">Hello, I'm</span>
+            <h1 className="hero-name">
+              <span>SUBHADIP</span>
+              <span>BERA</span>
             </h1>
           </motion.div>
 
           <motion.div
-            className="rb-info"
-            initial={{ opacity: 0, y: 18 }}
+            initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: T_REST, ease }}
+            transition={{ duration: 1, delay: 3.5, ease }}
           >
-            <p className="rb-year">1st Year B.Tech Student</p>
-            <p className="rb-role">AI &amp; Robotics</p>
-            <p className="rb-uni">The Neotia University</p>
+            <p className="hero-year">1st Year B.Tech Student</p>
+            <h2 className="hero-role">AI &amp; ROBOTICS</h2>
+            <p className="hero-university">The Neotia University</p>
 
-            <div className="rb-tagline">
+            <div className="hero-tagline">
               <b>Innovate</b>
-              <i />
+              <span className="hero-dot" />
               <span>Build</span>
-              <i />
+              <span className="hero-dot" />
               <span>Automate</span>
             </div>
-          </motion.div>
 
-          <motion.div
-            className="rb-buttons"
-            initial={{ opacity: 0, y: 18 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: T_REST + 0.2, ease }}
-          >
-            <a href="#projects" className="rb-btn rb-btn-primary">
-              Explore My Work
-              <ArrowRight size={16} />
-            </a>
-            <a href="#contact" className="rb-btn rb-btn-ghost">
-              Contact Me
-            </a>
+            <div className="hero-actions">
+              <a href="#projects" className="hero-button hero-button-primary">
+                Explore My Portfolio
+                <ArrowUpRight size={15} />
+              </a>
+
+              <a href="#contact" className="hero-button hero-button-secondary">
+                Contact Me
+              </a>
+            </div>
           </motion.div>
         </div>
       </div>
 
       {/* Social icons */}
-      <div className="rb-socials">
-        {socials.map((item, i) => {
+      <motion.div
+        className="hero-socials"
+        initial={{ opacity: 0, x: 20 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 1, delay: 4.1 }}
+      >
+        {socials.map((item) => {
           const Icon = item.icon;
+
           return (
-            <motion.a
+            <a
               key={item.label}
               href={item.href}
               target="_blank"
               rel="noreferrer"
               aria-label={item.label}
-              className="rb-social"
-              initial={{ opacity: 0, x: 16 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6, delay: T_REST + 0.3 + i * 0.12, ease }}
+              className="hero-social"
             >
               <Icon size={17} />
-            </motion.a>
+            </a>
           );
         })}
-      </div>
+      </motion.div>
 
-      {/* Scroll indicator and glowing line */}
-      <motion.a
-        href="#about"
-        className="rb-scroll"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.8, delay: T_REST + 0.5 }}
-      >
-        <span className="rb-scroll-circle">
-          <ChevronsDown size={16} />
+      {/* Scroll indicator */}
+      <a href="#about" className="hero-scroll">
+        <span className="hero-scroll-icon">
+          <ArrowDown size={16} />
         </span>
         Scroll Down
-      </motion.a>
+      </a>
 
-      <div className="rb-line" />
+      <div className="hero-bottom-line" />
     </section>
   );
-}
+      }
