@@ -1,46 +1,45 @@
-import { useEffect, useState } from "react";
+import { useMemo } from 'react'
 
 type Particle = {
-  id: number;
-  left: number;
-  delay: number;
-  duration: number;
-  size: number;
-};
+  id: number
+  left: number
+  delay: number
+  duration: number
+  size: number
+  drift: number
+  opacity: number
+}
 
 export default function FireParticles() {
-  const [particles, setParticles] = useState<Particle[]>([]);
-
-  useEffect(() => {
-    const generatedParticles = Array.from(
-      { length: 22 },
-      (_, index): Particle => ({
-        id: index,
-        left: Math.random() * 100,
-        delay: Math.random() * 12,
-        duration: 10 + Math.random() * 12,
-        size: 2 + Math.random() * 3,
-      })
-    );
-
-    setParticles(generatedParticles);
-  }, []);
+  const particles = useMemo<Particle[]>(() => {
+    return Array.from({ length: 38 }, (_, i) => ({
+      id: i,
+      left: Math.random() * 100,
+      delay: Math.random() * 12,
+      duration: 8 + Math.random() * 12,
+      size: 2 + Math.random() * 3,
+      drift: -35 + Math.random() * 70,
+      opacity: 0.25 + Math.random() * 0.65,
+    }))
+  }, [])
 
   return (
     <div className="fire-particles" aria-hidden="true">
-      <div className="fire-glow fire-glow-left" />
-      <div className="fire-glow fire-glow-right" />
+      <div className="fire-glow fire-glow-one" />
+      <div className="fire-glow fire-glow-two" />
 
       {particles.map((particle) => (
         <span
           key={particle.id}
-          className="fire-particle"
+          className="fire-ember"
           style={{
             left: `${particle.left}%`,
-            animationDelay: `${particle.delay}s`,
-            animationDuration: `${particle.duration}s`,
             width: `${particle.size}px`,
             height: `${particle.size}px`,
+            opacity: particle.opacity,
+            animationDelay: `${particle.delay}s`,
+            animationDuration: `${particle.duration}s`,
+            ['--drift' as string]: `${particle.drift}px`,
           }}
         />
       ))}
@@ -51,78 +50,80 @@ export default function FireParticles() {
           inset: 0;
           overflow: hidden;
           pointer-events: none;
-          z-index: 0;
+          z-index: 1;
+          isolation: isolate;
         }
 
         .fire-glow {
           position: absolute;
-          width: 340px;
-          height: 340px;
+          width: 420px;
+          height: 420px;
           border-radius: 50%;
-          background: #ff4d00;
-          filter: blur(120px);
-          opacity: 0.10;
-          animation: fireGlow 9s ease-in-out infinite alternate;
+          filter: blur(110px);
+          opacity: 0.12;
+          animation: glowPulse 9s ease-in-out infinite alternate;
         }
 
-        .fire-glow-left {
-          top: 15%;
+        .fire-glow-one {
+          top: 12%;
           left: -230px;
+          background: #ff4d00;
         }
 
-        .fire-glow-right {
-          right: -230px;
-          bottom: 10%;
-          background: #ff7a18;
+        .fire-glow-two {
+          right: -240px;
+          bottom: 5%;
+          background: #ff1e00;
           animation-delay: 3s;
         }
 
-        .fire-particle {
+        .fire-ember {
           position: absolute;
           bottom: -15px;
           border-radius: 50%;
-          background: #ff7626;
-          box-shadow: 0 0 9px 2px rgba(255, 100, 20, 0.4);
-          opacity: 0;
-          animation: particleRise linear infinite;
+          background: #ff6a00;
+          box-shadow:
+            0 0 6px #ff6a00,
+            0 0 14px rgba(255, 75, 0, 0.65);
+          animation: emberRise linear infinite;
+          will-change: transform, opacity;
         }
 
-        @keyframes particleRise {
+        @keyframes emberRise {
           0% {
             transform: translate3d(0, 0, 0) scale(0.5);
             opacity: 0;
           }
           15% {
-            opacity: 0.65;
+            opacity: 0.8;
           }
-          80% {
-            opacity: 0.3;
+          75% {
+            opacity: 0.55;
           }
           100% {
-            transform: translate3d(20px, -105vh, 0) scale(0.2);
+            transform: translate3d(var(--drift), -110vh, 0) scale(1.2);
             opacity: 0;
           }
         }
 
-        @keyframes fireGlow {
+        @keyframes glowPulse {
           from {
             transform: scale(0.9);
-            opacity: 0.07;
+            opacity: 0.08;
           }
           to {
-            transform: scale(1.12);
-            opacity: 0.14;
+            transform: scale(1.15);
+            opacity: 0.18;
           }
         }
 
         @media (prefers-reduced-motion: reduce) {
-          .fire-particle,
+          .fire-ember,
           .fire-glow {
             animation: none;
-            display: none;
           }
         }
       `}</style>
     </div>
-  );
+  )
 }
