@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { ArrowRight, ChevronsDown, MessageCircle } from "lucide-react";
-import type { SVGProps, SyntheticEvent } from "react";
+import type { SVGProps } from "react";
 
 /* ---------- Brand icons (lucide-react no longer ships these) ---------- */
 
@@ -57,42 +57,54 @@ const socials = [
   { label: "WhatsApp", href: "https://wa.me/91XXXXXXXXXX", icon: MessageCircle },
 ];
 
+const GIANT_LETTERS = "ROBOTICS".split("");
+
+const NAME_WORDS = ["Subhadip", "Bera"];
+let letterCount = 0;
+const NAME_PARTS = NAME_WORDS.map((word) => {
+  const start = letterCount;
+  letterCount += word.length;
+  return { word, start };
+});
+
 /* ---------- Image URLs (works on GitHub Pages base path) ---------- */
 
 const BASE = import.meta.env.BASE_URL;
 const PORTRAIT_SRC = `${BASE}images/profile/subhadip.png`;
 const ROBOT_SRC = `${BASE}images/robot/robot.png`;
 
-/* ---------- Animation timing (seconds) ----------
-   The app shows a loader for ~1.8s, so the sequence starts after it. */
+/* ---------- Animation timeline (seconds) ----------
+   The app shows a loader for ~1.8s, so everything starts after it.
+   Order: ROBOTICS -> Hello -> Name -> Robot -> Portrait -> Info -> Buttons */
 
 const START = 1.9;
-const T_NAME = START; // 1. name
-const T_ROBOT = START + 1.1; // 2. robot from top
-const T_PORTRAIT = START + 2.1; // 3. portrait from bottom
-const T_REST = START + 3.3; // 4. text, buttons, socials
+const T_GIANT = START;
+const T_HELLO = START + 0.9;
+const T_NAME = START + 1.4;
+const T_ROBOT = START + 2.7;
+const T_PORTRAIT = START + 3.7;
+const T_INFO = START + 4.9;
+const T_BUTTONS = START + 6.6;
+const T_SOCIALS = START + 7.0;
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
-/* Your PNGs currently have a solid black background (not transparent).
-   While that is true, keep this true: it blends the black away.
-   Once you replace them with truly transparent PNGs, set it to false. */
-const BLEND_BLACK_BG = false;
-
-const hideBroken = (e: SyntheticEvent<HTMLImageElement>) => {
-  e.currentTarget.style.visibility = "hidden";
-};
+const fadeUp = (delay: number, duration = 0.9) => ({
+  initial: { opacity: 0, y: 24, filter: "blur(10px)" },
+  animate: { opacity: 1, y: 0, filter: "blur(0px)" },
+  transition: { duration, delay, ease },
+});
 
 export default function Hero() {
   return (
-    <section className={`rb-hero${BLEND_BLACK_BG ? " rb-blend" : ""}`}>
+    <section className="rb-hero">
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Mrs+Saint+Delafield&display=swap');
 
         .rb-hero {
-          --rb-h: min(100svh, max(640px, 56vw));
+          --rb-h: min(100svh, max(700px, 58vw));
           position: relative;
-          min-height: 640px;
+          min-height: 700px;
           min-height: var(--rb-h);
           overflow: hidden;
           isolation: isolate;
@@ -142,7 +154,7 @@ export default function Hero() {
             text-shadow: 0 0 40px rgba(255, 30, 30, .35), 0 0 90px rgba(255, 0, 0, .18);
           }
           50% {
-            opacity: .68;
+            opacity: .7;
             text-shadow: 0 0 60px rgba(255, 30, 30, .55), 0 0 130px rgba(255, 0, 0, .3);
           }
         }
@@ -157,21 +169,13 @@ export default function Hero() {
           overflow: hidden;
         }
 
-        .rb-blend .rb-portrait img,
-        .rb-blend .rb-robot img {
-          mix-blend-mode: screen;
-          filter: none;
-          -webkit-mask-image: none;
-          mask-image: none;
-        }
-
         .rb-giant {
           position: absolute;
           top: 13%;
-          left: 50%;
-          transform: translateX(-50%);
+          left: 0;
           width: 100%;
-          text-align: center;
+          display: flex;
+          justify-content: center;
           white-space: nowrap;
           font-family: 'Space Grotesk', 'DM Sans', sans-serif;
           font-weight: 900;
@@ -182,6 +186,10 @@ export default function Hero() {
           color: #c40a0a;
           user-select: none;
           animation: rb-breathe 4.8s ease-in-out infinite;
+        }
+
+        .rb-giant-letter {
+          display: inline-block;
         }
 
         .rb-portrait {
@@ -196,9 +204,13 @@ export default function Hero() {
         .rb-robot {
           position: absolute;
           bottom: 0;
-          right: 0;
-          height: 86%;
+          right: 3%;
+          height: 80%;
           z-index: 2;
+        }
+
+        .rb-reveal {
+          height: 100%;
         }
 
         .rb-portrait img,
@@ -221,6 +233,8 @@ export default function Hero() {
 
         .rb-robot img {
           filter: drop-shadow(0 0 50px rgba(255, 20, 20, .4));
+          -webkit-mask-image: linear-gradient(to bottom, #000 76%, transparent 100%);
+          mask-image: linear-gradient(to bottom, #000 76%, transparent 100%);
         }
 
         /* ---------- Copy ---------- */
@@ -228,11 +242,11 @@ export default function Hero() {
         .rb-content {
           position: relative;
           z-index: 5;
-          min-height: 640px;
+          min-height: 700px;
           min-height: var(--rb-h);
           display: flex;
           align-items: center;
-          padding: 110px 7% 90px;
+          padding: 150px 7% 90px;
         }
 
         .rb-copy {
@@ -256,16 +270,21 @@ export default function Hero() {
           line-height: .9;
           letter-spacing: -.02em;
           text-transform: uppercase;
+          filter: drop-shadow(0 6px 18px rgba(0,0,0,.6));
+        }
+
+        .rb-word {
+          display: block;
+          white-space: nowrap;
+        }
+
+        .rb-letter {
+          display: inline-block;
           background: linear-gradient(180deg, #ffffff 15%, #b5b5b5 55%, #7d7d7d 100%);
           -webkit-background-clip: text;
           background-clip: text;
           -webkit-text-fill-color: transparent;
           color: transparent;
-          filter: drop-shadow(0 6px 18px rgba(0,0,0,.6));
-        }
-
-        .rb-name span {
-          display: block;
         }
 
         .rb-info {
@@ -436,10 +455,10 @@ export default function Hero() {
         @media (max-width: 1100px) {
           .rb-copy { width: min(480px, 48%); }
           .rb-portrait { left: 60%; height: 82%; }
-          .rb-robot { height: 70%; right: -4%; }
+          .rb-robot { height: 70%; right: 0; }
         }
 
-        /* ---------- Mobile ---------- */
+        /* ---------- Mobile (also touch phones in desktop-site mode) ---------- */
 
         @media (max-width: 800px), (pointer: coarse) and (orientation: portrait) {
           .rb-hero {
@@ -526,74 +545,157 @@ export default function Hero() {
 
       {/* Giant word, robot and portrait */}
       <div className="rb-stage" aria-hidden="true">
-        <div className="rb-giant">ROBOTICS</div>
-
-        <div className="rb-robot">
-          <motion.img
-            src={ROBOT_SRC}
-            alt=""
-            onError={hideBroken}
-            draggable={false}
-            initial={{ opacity: 0, y: "-45vh" }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1.3, delay: T_ROBOT, ease }}
-          />
+        {/* ROBOTICS: letters start stacked in the centre, then spread out */}
+        <div className="rb-giant">
+          {GIANT_LETTERS.map((ch, i) => (
+            <motion.span
+              key={i}
+              className="rb-giant-letter"
+              initial={{
+                opacity: 0,
+                x: `${(3.5 - i) * 0.62}em`,
+                scale: 0.45,
+                filter: "blur(26px)",
+              }}
+              animate={{ opacity: 1, x: 0, scale: 1, filter: "blur(0px)" }}
+              transition={{ duration: 1.7, delay: T_GIANT + i * 0.07, ease }}
+            >
+              {ch}
+            </motion.span>
+          ))}
         </div>
 
+        {/* Robot: reveals slowly from top to bottom */}
+        <div className="rb-robot">
+          <motion.div
+            className="rb-reveal"
+            initial={{
+              opacity: 0,
+              y: "-14vh",
+              scale: 0.93,
+              filter: "blur(16px)",
+              clipPath: "inset(0% 0% 100% 0%)",
+            }}
+            animate={{
+              opacity: 1,
+              y: 0,
+              scale: 1,
+              filter: "blur(0px)",
+              clipPath: "inset(0% 0% 0% 0%)",
+              transitionEnd: { clipPath: "none" },
+            }}
+            transition={{ duration: 2.2, delay: T_ROBOT, ease }}
+          >
+            <img
+              src={ROBOT_SRC}
+              alt=""
+              draggable={false}
+              onError={(e) => {
+                e.currentTarget.style.visibility = "hidden";
+              }}
+            />
+          </motion.div>
+        </div>
+
+        {/* Portrait: reveals slowly from bottom to top */}
         <div className="rb-portrait">
-          <motion.img
-            src={PORTRAIT_SRC}
-            alt=""
-            onError={hideBroken}
-            draggable={false}
-            initial={{ opacity: 0, y: "35vh" }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1.3, delay: T_PORTRAIT, ease }}
-          />
+          <motion.div
+            className="rb-reveal"
+            initial={{
+              opacity: 0,
+              y: "12vh",
+              scale: 0.93,
+              filter: "blur(16px)",
+              clipPath: "inset(100% 0% 0% 0%)",
+            }}
+            animate={{
+              opacity: 1,
+              y: 0,
+              scale: 1,
+              filter: "blur(0px)",
+              clipPath: "inset(0% 0% 0% 0%)",
+              transitionEnd: { clipPath: "none" },
+            }}
+            transition={{ duration: 2.2, delay: T_PORTRAIT, ease }}
+          >
+            <img
+              src={PORTRAIT_SRC}
+              alt=""
+              draggable={false}
+              onError={(e) => {
+                e.currentTarget.style.visibility = "hidden";
+              }}
+            />
+          </motion.div>
         </div>
       </div>
 
       {/* Left text */}
       <div className="rb-content">
         <div className="rb-copy">
-          <motion.div
-            initial={{ opacity: 0, filter: "blur(18px)", scale: 0.93 }}
-            animate={{ opacity: 1, filter: "blur(0px)", scale: 1 }}
-            transition={{ duration: 1.1, delay: T_NAME, ease }}
-            style={{ transformOrigin: "left center" }}
+          <motion.span
+            className="rb-hello"
+            initial={{ opacity: 0, clipPath: "inset(0% 100% 0% 0%)" }}
+            animate={{ opacity: 1, clipPath: "inset(0% 0% 0% 0%)" }}
+            transition={{ duration: 1.3, delay: T_HELLO, ease: "easeInOut" }}
           >
-            <span className="rb-hello">Hello, I'm</span>
-            <h1 className="rb-name">
-              <span>Subhadip</span>
-              <span>Bera</span>
-            </h1>
-          </motion.div>
+            Hello, I'm
+          </motion.span>
 
-          <motion.div
-            className="rb-info"
-            initial={{ opacity: 0, y: 18 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: T_REST, ease }}
-          >
-            <p className="rb-year">1st Year B.Tech Student</p>
-            <p className="rb-role">AI &amp; Robotics</p>
-            <p className="rb-uni">The Neotia University</p>
+          {/* Name: every letter spins in one by one */}
+          <h1 className="rb-name" aria-label="Subhadip Bera">
+            {NAME_PARTS.map(({ word, start }) => (
+              <span className="rb-word" key={word} aria-hidden="true">
+                {word.split("").map((ch, i) => (
+                  <motion.span
+                    key={i}
+                    className="rb-letter"
+                    style={{ transformPerspective: 700 }}
+                    initial={{
+                      opacity: 0,
+                      rotateY: -100,
+                      y: 36,
+                      filter: "blur(14px)",
+                    }}
+                    animate={{
+                      opacity: 1,
+                      rotateY: 0,
+                      y: 0,
+                      filter: "blur(0px)",
+                    }}
+                    transition={{
+                      duration: 1.1,
+                      delay: T_NAME + (start + i) * 0.09,
+                      ease,
+                    }}
+                  >
+                    {ch}
+                  </motion.span>
+                ))}
+              </span>
+            ))}
+          </h1>
 
-            <div className="rb-tagline">
+          <div className="rb-info">
+            <motion.p className="rb-year" {...fadeUp(T_INFO)}>
+              1st Year B.Tech Student
+            </motion.p>
+            <motion.p className="rb-role" {...fadeUp(T_INFO + 0.45)}>
+              AI &amp; Robotics
+            </motion.p>
+            <motion.p className="rb-uni" {...fadeUp(T_INFO + 0.9)}>
+              The Neotia University
+            </motion.p>
+            <motion.div className="rb-tagline" {...fadeUp(T_INFO + 1.35)}>
               <b>Innovate</b>
               <i />
               <span>Build</span>
               <i />
               <span>Automate</span>
-            </div>
-          </motion.div>
+            </motion.div>
+          </div>
 
-          <motion.div
-            className="rb-buttons"
-            initial={{ opacity: 0, y: 18 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: T_REST + 0.2, ease }}
-          >
+          <motion.div className="rb-buttons" {...fadeUp(T_BUTTONS, 1)}>
             <a href="#projects" className="rb-btn rb-btn-primary">
               Explore My Work
               <ArrowRight size={16} />
@@ -617,9 +719,13 @@ export default function Hero() {
               rel="noreferrer"
               aria-label={item.label}
               className="rb-social"
-              initial={{ opacity: 0, x: 16 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6, delay: T_REST + 0.3 + i * 0.12, ease }}
+              initial={{ opacity: 0, x: 24, scale: 0.7 }}
+              animate={{ opacity: 1, x: 0, scale: 1 }}
+              transition={{
+                duration: 0.8,
+                delay: T_SOCIALS + i * 0.18,
+                ease,
+              }}
             >
               <Icon size={17} />
             </motion.a>
@@ -633,7 +739,7 @@ export default function Hero() {
         className="rb-scroll"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ duration: 0.8, delay: T_REST + 0.5 }}
+        transition={{ duration: 1, delay: T_SOCIALS + 0.8 }}
       >
         <span className="rb-scroll-circle">
           <ChevronsDown size={16} />
@@ -641,7 +747,12 @@ export default function Hero() {
         Scroll Down
       </motion.a>
 
-      <div className="rb-line" />
+      <motion.div
+        className="rb-line"
+        initial={{ scaleX: 0, opacity: 0 }}
+        animate={{ scaleX: 1, opacity: 1 }}
+        transition={{ duration: 1.8, delay: T_SOCIALS, ease }}
+      />
     </section>
   );
-                     }
+              }
