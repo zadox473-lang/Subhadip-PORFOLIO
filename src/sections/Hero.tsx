@@ -171,7 +171,7 @@ export default function Hero() {
 
         .rb-giant {
           position: absolute;
-          top: 13%;
+          top: 10%;
           left: 0;
           width: 100%;
           display: flex;
@@ -190,6 +190,53 @@ export default function Hero() {
 
         .rb-giant-letter {
           display: inline-block;
+        }
+
+        /* ROBOTICS keeps floating after it has landed */
+        .rb-float {
+          display: inline-block;
+          animation: rb-float 6.5s ease-in-out infinite;
+        }
+
+        @keyframes rb-float {
+          0%, 100% { transform: translateY(0); }
+          50% { transform: translateY(-16px); }
+        }
+
+        /* Portrait and robot keep moving gently after they have landed */
+        .rb-idle {
+          height: 100%;
+          transform-origin: 50% 100%;
+        }
+
+        .rb-idle-portrait {
+          animation: rb-float-portrait 6s ease-in-out infinite;
+        }
+
+        .rb-idle-robot {
+          animation: rb-float-robot 7.5s ease-in-out infinite;
+        }
+
+        @keyframes rb-float-portrait {
+          0%, 100% { transform: translateY(0) scale(1); }
+          50% { transform: translateY(-9px) scale(1.012); }
+        }
+
+        @keyframes rb-float-robot {
+          0%, 100% { transform: translateY(0) rotate(0deg) scale(1); }
+          30% { transform: translateY(-14px) rotate(.7deg) scale(1.01); }
+          65% { transform: translateY(-6px) rotate(-.6deg) scale(1.005); }
+        }
+
+        @keyframes rb-glow-portrait {
+          0%, 100% { filter: drop-shadow(0 0 30px rgba(255, 30, 30, .2)) brightness(1); }
+          50% { filter: drop-shadow(0 0 65px rgba(255, 30, 30, .5)) brightness(1.06); }
+        }
+
+        @keyframes rb-glow-robot {
+          0%, 100% { filter: drop-shadow(0 0 40px rgba(255, 20, 20, .3)) brightness(1); }
+          40% { filter: drop-shadow(0 0 80px rgba(255, 20, 20, .7)) brightness(1.18); }
+          55% { filter: drop-shadow(0 0 60px rgba(255, 20, 20, .5)) brightness(1.08); }
         }
 
         .rb-portrait {
@@ -231,6 +278,14 @@ export default function Hero() {
           mask-image: linear-gradient(to bottom, #000 82%, transparent 100%);
         }
 
+        .rb-portrait img.rb-glowing {
+          animation: rb-glow-portrait 4.2s ease-in-out infinite;
+        }
+
+        .rb-robot img.rb-glowing {
+          animation: rb-glow-robot 3.8s ease-in-out infinite;
+        }
+
         .rb-robot img {
           filter: drop-shadow(0 0 50px rgba(255, 20, 20, .4));
           -webkit-mask-image: linear-gradient(to bottom, #000 76%, transparent 100%);
@@ -246,7 +301,7 @@ export default function Hero() {
           min-height: var(--rb-h);
           display: flex;
           align-items: center;
-          padding: 150px 7% 90px;
+          padding: 210px 7% 70px;
         }
 
         .rb-copy {
@@ -530,8 +585,12 @@ export default function Hero() {
 
         @media (prefers-reduced-motion: reduce) {
           .rb-atmosphere,
-          .rb-giant {
-            animation: none;
+          .rb-giant,
+          .rb-float,
+          .rb-idle-portrait,
+          .rb-idle-robot,
+          .rb-glowing {
+            animation: none !important;
           }
           .rb-btn,
           .rb-social {
@@ -560,7 +619,12 @@ export default function Hero() {
               animate={{ opacity: 1, x: 0, scale: 1, filter: "blur(0px)" }}
               transition={{ duration: 1.7, delay: T_GIANT + i * 0.07, ease }}
             >
-              {ch}
+              <span
+                className="rb-float"
+                style={{ animationDelay: `${T_GIANT + 2.6 + i * 0.3}s` }}
+              >
+                {ch}
+              </span>
             </motion.span>
           ))}
         </div>
@@ -586,14 +650,21 @@ export default function Hero() {
             }}
             transition={{ duration: 2.2, delay: T_ROBOT, ease }}
           >
-            <img
-              src={ROBOT_SRC}
-              alt=""
-              draggable={false}
-              onError={(e) => {
-                e.currentTarget.style.visibility = "hidden";
-              }}
-            />
+            <div
+              className="rb-idle rb-idle-robot"
+              style={{ animationDelay: `${T_ROBOT + 2.4}s` }}
+            >
+              <img
+                className="rb-glowing"
+                src={ROBOT_SRC}
+                alt=""
+                draggable={false}
+                style={{ animationDelay: `${T_ROBOT + 2.4}s` }}
+                onError={(e) => {
+                  e.currentTarget.style.visibility = "hidden";
+                }}
+              />
+            </div>
           </motion.div>
         </div>
 
@@ -618,14 +689,21 @@ export default function Hero() {
             }}
             transition={{ duration: 2.2, delay: T_PORTRAIT, ease }}
           >
-            <img
-              src={PORTRAIT_SRC}
-              alt=""
-              draggable={false}
-              onError={(e) => {
-                e.currentTarget.style.visibility = "hidden";
-              }}
-            />
+            <div
+              className="rb-idle rb-idle-portrait"
+              style={{ animationDelay: `${T_PORTRAIT + 2.4}s` }}
+            >
+              <img
+                className="rb-glowing"
+                src={PORTRAIT_SRC}
+                alt=""
+                draggable={false}
+                style={{ animationDelay: `${T_PORTRAIT + 2.4}s` }}
+                onError={(e) => {
+                  e.currentTarget.style.visibility = "hidden";
+                }}
+              />
+            </div>
           </motion.div>
         </div>
       </div>
@@ -755,4 +833,4 @@ export default function Hero() {
       />
     </section>
   );
-              }
+                      }
