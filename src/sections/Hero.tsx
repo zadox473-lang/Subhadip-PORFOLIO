@@ -77,7 +77,7 @@ const ease = [0.22, 1, 0.36, 1] as const;
 /* Your PNGs currently have a solid black background (not transparent).
    While that is true, keep this true: it blends the black away.
    Once you replace them with truly transparent PNGs, set it to false. */
-const BLEND_BLACK_BG = true;
+const BLEND_BLACK_BG = false;
 
 const hideBroken = (e: SyntheticEvent<HTMLImageElement>) => {
   e.currentTarget.style.visibility = "hidden";
