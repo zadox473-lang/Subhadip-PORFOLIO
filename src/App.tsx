@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-import BackToTop from './components/BackToTop'
+import BackToTop from "./components/BackToTop";
 import Navbar from "./components/Navbar";
 import Loader from "./components/Loader";
 import ScrollProgress from "./components/ScrollProgress";
@@ -65,6 +65,8 @@ export default function App() {
             <Contact />
           </section>
         </main>
+
+        <BackToTop />
       </div>
     </>
   );
