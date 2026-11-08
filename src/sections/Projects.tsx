@@ -6,6 +6,7 @@ import {
   Layers3,
   Sparkles,
 } from 'lucide-react'
+import RoboticArm from '../components/RoboticArm'
 
 const projects = [
   {
@@ -68,6 +69,10 @@ export default function Projects() {
             new opportunity to learn.
           </p>
         </motion.div>
+
+        <div className="projects-arm">
+          <RoboticArm />
+        </div>
 
         <div className="projects-grid">
           {projects.map((project, index) => {
@@ -453,6 +458,29 @@ export default function Projects() {
             align-items: flex-start;
             flex-direction: column;
             padding: 24px;
+          }
+        }
+
+        .projects-container {
+          position: relative;
+        }
+
+        .projects-arm {
+          position: absolute;
+          top: -90px;
+          right: 0;
+          width: min(34%, 360px);
+          z-index: 0;
+          pointer-events: none;
+        }
+
+        @media (max-width: 800px) {
+          .projects-arm {
+            position: relative;
+            top: auto;
+            right: auto;
+            width: min(78%, 320px);
+            margin: 10px auto 0;
           }
         }
       `}</style>
