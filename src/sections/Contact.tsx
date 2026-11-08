@@ -71,7 +71,7 @@ const contacts = [
     name: 'WhatsApp',
     detail: 'Let’s connect directly',
     value: 'Chat on WhatsApp',
-    href: 'https://wa.me/91XXXXXXXXXX',
+    href: 'https://wa.me/+917812009097',
     icon: MessageCircle,
   },
 ]
