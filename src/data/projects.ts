@@ -22,8 +22,8 @@ export type Build = {
 
 export const builds: Build[] = [
   {
-    title: 'Autonomous Robot Car',
-    description: 'Self-driving robot using computer vision.',
+    title: 'Elevating Ambulance',
+    description: 'Ambulace which elevates whene there is traffic and have stabilized bed',
     image: '',
     github: '',
     tag: 'ROBOTICS',
