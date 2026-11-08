@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { ArrowRight, ChevronsDown, MessageCircle } from "lucide-react";
 import type { SVGProps } from "react";
+import HeroLighting from "../components/HeroLighting";
 
 /* ---------- Brand icons (lucide-react no longer ships these) ---------- */
 
@@ -668,6 +669,9 @@ export default function Hero() {
           </motion.div>
         </div>
 
+        {/* Red cinematic lighting: smoke, energy arcs, floor haze */}
+        <HeroLighting delay={T_ROBOT + 1.2} />
+
         {/* Portrait: reveals slowly from bottom to top */}
         <div className="rb-portrait">
           <motion.div
@@ -833,4 +837,4 @@ export default function Hero() {
       />
     </section>
   );
-                      }
+          }
