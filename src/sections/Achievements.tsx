@@ -10,6 +10,7 @@ import {
   Sparkles,
   Target,
 } from 'lucide-react'
+import TrophyShowcase from '../components/TrophyShowcase'
 
 const milestones = [
   {
@@ -127,9 +128,7 @@ export default function Achievements() {
             viewport={{ once: true }}
             transition={{ duration: 0.8, delay: 0.2 }}
           >
-            <div className="achievement-side-icon">
-              <Award size={35} />
-            </div>
+            <TrophyShowcase />
 
             <span className="achievement-side-label">THE MINDSET</span>
 
