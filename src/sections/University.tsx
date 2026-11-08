@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { motion } from 'framer-motion'
 import {
   ArrowUpRight,
@@ -8,6 +9,10 @@ import {
   MapPin,
   Sparkles,
 } from 'lucide-react'
+
+/* Campus photo: upload it to  public/images/university/
+   and put the file name here (jpg, png or webp). */
+const UNIVERSITY_PHOTO = 'campus.jpg'
 
 const details = [
   {
@@ -33,6 +38,8 @@ const details = [
 ]
 
 export default function University() {
+  const [hasPhoto, setHasPhoto] = useState(true)
+
   return (
     <section id="university" className="university-section">
       <div className="university-container">
@@ -64,7 +71,19 @@ export default function University() {
           viewport={{ once: true, amount: 0.2 }}
           transition={{ duration: 0.8 }}
         >
-          <div className="university-visual">
+          <div
+            className={`university-visual${hasPhoto ? ' has-photo' : ''}`}
+          >
+            {hasPhoto && (
+              <img
+                className="university-photo"
+                src={`${import.meta.env.BASE_URL}images/university/${UNIVERSITY_PHOTO}`}
+                alt="The Neotia University campus"
+                loading="lazy"
+                onError={() => setHasPhoto(false)}
+              />
+            )}
+
             <div className="university-visual-overlay" />
 
             <div className="university-visual-content">
@@ -74,7 +93,7 @@ export default function University() {
 
               <Building2 size={54} strokeWidth={1.1} />
 
-              <h3>YOUR UNIVERSITY</h3>
+              <h3>THE NEOTIA UNIVERSITY</h3>
 
               <span className="university-visual-caption">
                 A PLACE TO LEARN. A SPACE TO CREATE.
@@ -430,6 +449,50 @@ export default function University() {
           .university-visual {
             min-height: 290px;
           }
+        }
+
+        .university-photo {
+          position: absolute;
+          inset: 0;
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          transition: transform 1.2s ease;
+        }
+
+        .university-main-card:hover .university-photo {
+          transform: scale(1.05);
+        }
+
+        .university-visual.has-photo {
+          place-items: end start;
+        }
+
+        .university-visual.has-photo::before,
+        .university-visual.has-photo::after {
+          display: none;
+        }
+
+        .university-visual.has-photo .university-visual-overlay {
+          background:
+            linear-gradient(180deg, rgba(0, 0, 0, 0.05) 30%, rgba(5, 3, 2, 0.88)),
+            radial-gradient(circle at 50% 100%, rgba(255, 100, 20, 0.28), transparent 60%);
+        }
+
+        .university-visual.has-photo .university-visual-content {
+          align-items: flex-start;
+          gap: 10px;
+          padding: 0 28px 62px;
+          text-align: left;
+        }
+
+        .university-visual.has-photo .university-visual-content svg {
+          display: none;
+        }
+
+        .university-visual.has-photo .university-visual-label,
+        .university-visual.has-photo .university-visual-caption {
+          color: #ffb98a;
         }
       `}</style>
     </section>
