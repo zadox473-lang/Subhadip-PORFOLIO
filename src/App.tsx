@@ -12,6 +12,7 @@ import About from "./sections/About";
 import University from "./sections/University";
 import Skills from "./sections/Skills";
 import Projects from "./sections/Projects";
+import MoreBuilds from "./sections/MoreBuilds";
 import Achievements from "./sections/Achievements";
 import Contact from "./sections/Contact";
 
@@ -55,6 +56,10 @@ export default function App() {
 
           <section id="projects">
             <Projects />
+          </section>
+
+          <section id="builds">
+            <MoreBuilds />
           </section>
 
           <section id="achievements">
