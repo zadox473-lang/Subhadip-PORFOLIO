@@ -23,8 +23,8 @@ export type Build = {
 export const builds: Build[] = [
   {
     title: 'Elevating Ambulance',
-    description: 'Ambulace which elevates whene there is traffic and have stabilized bed',
-    image: '',
+    description: 'Ambulance which elevates when there is traffic and have stabilized bed',
+    image: 'elevating.jpg',
     github: '',
     tag: 'ROBOTICS',
   },
